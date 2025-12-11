@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "game_id": "game_0020",
+    "code_name": "MG-0020",
+    "title_kr": "타임 슬립 탐험대",
+    "title_en": "Time Slip Explorers",
+    "version": "0.1.0",
+    "last_updated": "2026-02-01"
+  },
+  "overview": {
+    "genre_tags": ["timeloop", "roguelite", "exploration", "meta"],
+    "target_audience": {
+      "age": "20-40",
+      "region": ["KR", "Global"],
+      "play_style": "mid-core"
+    },
+    "core_loop": "타임루프를 반복하며 스테이지를 탐험하고, 각 루프에서 얻은 지식과 자원으로 메타 성장을 이루어 더 깊은 곳까지 도달한다",
+    "unique_selling_point": "타임루프 메커니즘과 메타 진행의 완벽한 조화, 반복할수록 강해지는 성취감",
+    "year_2_role": "타임루프/회귀 메타 '루프 프레임워크'화"
+  },
+  "gameplay": {
+    "core_mechanics": [
+      {
+        "name": "타임루프",
+        "description": "죽거나 목표 달성 시 시간이 되돌아가며, 이전 루프의 경험과 일부 자원 유지"
+      },
+      {
+        "name": "스테이지 탐험",
+        "description": "랜덤 생성 던전 탐험, 각 루프마다 다른 구조와 보상"
+      },
+      {
+        "name": "메타 성장",
+        "description": "루프 횟수에 따라 영구 스탯 증가, 새로운 능력 해금"
+      },
+      {
+        "name": "지식 시스템",
+        "description": "탐험으로 얻은 정보가 다음 루프에서 힌트로 제공"
+      },
+      {
+        "name": "타임라인 분기",
+        "description": "선택에 따라 다른 타임라인 진입, 다양한 엔딩"
+      }
+    ],
+    "progression": {
+      "type": "loop_based",
+      "description": "루프 반복을 통한 메타 진행도 향상, 스테이지 깊이 증가"
+    },
+    "session_length": "15-30분 (1 루프)"
+  },
+  "loop_system": {
+    "loop_types": [
+      {
+        "name": "일반 루프",
+        "description": "기본 탐험 루프, 자원 수집과 정보 획득"
+      },
+      {
+        "name": "완벽 루프",
+        "description": "모든 목표 달성 시 보너스 보상"
+      },
+      {
+        "name": "특수 루프",
+        "description": "특정 조건 충족 시 발생하는 이벤트 루프"
+      }
+    ],
+    "retention_between_loops": {
+      "full_retention": ["메타 화폐", "영구 업그레이드", "지식 데이터베이스", "타임라인 기록"],
+      "partial_retention": ["특정 아이템 (보존 슬롯)", "일부 버프"],
+      "reset": ["레벨", "일반 아이템", "골드", "HP/MP"]
+    },
+    "meta_progression": {
+      "permanent_upgrades": [
+        "시작 스탯 증가",
+        "보존 슬롯 확장",
+        "특수 능력 해금",
+        "타임라인 접근권"
+      ],
+      "knowledge_database": {
+        "enemy_info": "적 약점, 패턴 정보",
+        "map_info": "숨겨진 경로, 보물 위치",
+        "event_info": "이벤트 선택지 결과"
+      }
+    }
+  },
+  "economy": {
+    "currencies": [
+      {
+        "name": "골드",
+        "type": "soft",
+        "retention": "reset",
+        "sources": ["스테이지 클리어", "보물 상자", "적 처치"],
+        "sinks": ["루프 내 상점", "임시 업그레이드"]
+      },
+      {
+        "name": "시간 결정",
+        "type": "meta",
+        "retention": "full",
+        "sources": ["루프 완료", "업적", "완벽 루프"],
+        "sinks": ["영구 업그레이드", "타임라인 해금", "특수 능력"]
+      },
+      {
+        "name": "크로노 코인",
+        "type": "hard",
+        "retention": "full",
+        "sources": ["인앱 구매", "이벤트", "첫 클리어 보상"],
+        "sinks": ["프리미엄 타임라인", "특별 스킨", "편의 기능"]
+      }
+    ],
+    "monetization": {
+      "model": "F2P + IAP",
+      "iap_items": ["크로노 코인 패키지", "시즌 패스", "스타터 팩", "타임라인 팩"],
+      "ad_placements": ["보상형 광고 (부활, 보상 2배)", "선택형 광고 (추가 보존 슬롯)"]
+    }
+  },
+  "technical": {
+    "platform": ["Android", "iOS"],
+    "engine": "Flutter + Flame",
+    "backend": "Firebase + Custom Loop Server",
+    "analytics": "GA4 + BigQuery",
+    "save_system": "Cloud Save (loop state, meta progress)"
+  },
+  "common_modules": {
+    "loop_framework": {
+      "description": "재사용 가능한 타임루프 프레임워크",
+      "features": ["루프 상태 관리", "보존/리셋 시스템", "메타 진행 추적", "지식 DB"]
+    },
+    "procedural_generation": {
+      "description": "던전 랜덤 생성 시스템",
+      "features": ["시드 기반 생성", "난이도 조절", "보상 밸런싱"]
+    },
+    "timeline_system": {
+      "description": "분기 타임라인 관리",
+      "features": ["분기 추적", "타임라인 비교", "멀티 엔딩"]
+    }
+  }
+}

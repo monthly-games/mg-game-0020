@@ -1,0 +1,184 @@
+{
+  "version": "0.1.0",
+  "currencies": {
+    "gold": {
+      "display_name": "골드",
+      "icon": "assets/icons/gold.png",
+      "retention": "reset",
+      "initial_amount": 0,
+      "sources": {
+        "enemy_drop": {
+          "base": 10,
+          "elite_multiplier": 5,
+          "boss_multiplier": 20
+        },
+        "treasure_chest": {
+          "common": 50,
+          "rare": 200,
+          "epic": 500
+        },
+        "stage_clear": {
+          "base": 100,
+          "per_floor_bonus": 20
+        }
+      },
+      "sinks": {
+        "in_loop_shop": {
+          "consumable": "10-100",
+          "temporary_upgrade": "50-500"
+        },
+        "npc_services": {
+          "heal": 30,
+          "identify": 50,
+          "blessing": 100
+        }
+      }
+    },
+    "time_crystals": {
+      "display_name": "시간 결정",
+      "icon": "assets/icons/time_crystal.png",
+      "retention": "full",
+      "initial_amount": 100,
+      "sources": {
+        "loop_complete": {
+          "base": 10,
+          "depth_multiplier": 1.2,
+          "perfect_bonus": 5
+        },
+        "achievement": "varied",
+        "first_clear": {
+          "floor_10": 50,
+          "floor_25": 100,
+          "floor_50": 250,
+          "floor_100": 500
+        },
+        "timeline_discovery": 20
+      },
+      "sinks": {
+        "permanent_upgrades": {
+          "stat_upgrade": {
+            "base_cost": 10,
+            "level_multiplier": 1.5
+          },
+          "skill_unlock": {
+            "common": 50,
+            "rare": 150,
+            "epic": 300,
+            "legendary": 500
+          },
+          "preservation_slot": {
+            "slot_2": 100,
+            "slot_3": 250,
+            "slot_4": 500,
+            "slot_5": 1000
+          }
+        },
+        "timeline_unlock": {
+          "timeline_2": 200,
+          "timeline_3": 500,
+          "timeline_4": 1000
+        }
+      }
+    },
+    "chrono_coins": {
+      "display_name": "크로노 코인",
+      "icon": "assets/icons/chrono_coin.png",
+      "retention": "full",
+      "initial_amount": 50,
+      "iap_packages": [
+        { "coins": 100, "price_usd": 0.99 },
+        { "coins": 500, "price_usd": 4.99, "bonus": 50 },
+        { "coins": 1200, "price_usd": 9.99, "bonus": 200 },
+        { "coins": 3000, "price_usd": 19.99, "bonus": 600 },
+        { "coins": 8000, "price_usd": 49.99, "bonus": 2000 }
+      ],
+      "sources": {
+        "event": "varied",
+        "first_clear_bonus": 20
+      },
+      "sinks": {
+        "premium_timeline": 500,
+        "cosmetic_skins": "100-1000",
+        "convenience": {
+          "instant_loop_reset": 10,
+          "extra_preservation_slot_temp": 50,
+          "knowledge_reveal": 20
+        }
+      }
+    }
+  },
+  "meta_upgrades": {
+    "stats": [
+      {
+        "id": "max_hp",
+        "name": "최대 HP 증가",
+        "base_cost": 10,
+        "max_level": 50,
+        "cost_scaling": 1.4,
+        "effect_per_level": "+5% Max HP"
+      },
+      {
+        "id": "attack_power",
+        "name": "공격력 증가",
+        "base_cost": 10,
+        "max_level": 50,
+        "cost_scaling": 1.4,
+        "effect_per_level": "+3% Attack"
+      },
+      {
+        "id": "crit_rate",
+        "name": "치명타 확률",
+        "base_cost": 15,
+        "max_level": 30,
+        "cost_scaling": 1.5,
+        "effect_per_level": "+1% Crit Rate"
+      },
+      {
+        "id": "gold_bonus",
+        "name": "골드 획득량",
+        "base_cost": 12,
+        "max_level": 40,
+        "cost_scaling": 1.3,
+        "effect_per_level": "+5% Gold"
+      }
+    ],
+    "abilities": [
+      {
+        "id": "double_jump",
+        "name": "이단 점프",
+        "cost": 50,
+        "description": "탐험 중 이단 점프 가능"
+      },
+      {
+        "id": "time_slow",
+        "name": "시간 감속",
+        "cost": 150,
+        "description": "위험 시 시간을 늦춰 회피 가능"
+      },
+      {
+        "id": "future_vision",
+        "name": "미래 시야",
+        "cost": 300,
+        "description": "다음 방의 내용을 미리 볼 수 있음"
+      },
+      {
+        "id": "perfect_memory",
+        "name": "완벽한 기억",
+        "cost": 500,
+        "description": "모든 지식 자동 습득"
+      }
+    ]
+  },
+  "loop_rewards": {
+    "depth_milestones": [
+      { "depth": 10, "time_crystals": 50, "chrono_coins": 10 },
+      { "depth": 25, "time_crystals": 100, "chrono_coins": 20 },
+      { "depth": 50, "time_crystals": 250, "chrono_coins": 50 },
+      { "depth": 100, "time_crystals": 500, "chrono_coins": 100 }
+    ],
+    "perfect_loop_bonus": {
+      "time_crystals_multiplier": 1.5,
+      "chrono_coins_bonus": 5
+    }
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "version": "0.1.0",
+  "timelines": [
+    {
+      "timeline_id": "alpha",
+      "name": "알파 타임라인",
+      "unlock_condition": "default",
+      "description": "기본 타임라인, 균형잡힌 난이도"
+    },
+    {
+      "timeline_id": "beta",
+      "name": "베타 타임라인",
+      "unlock_condition": "reach_depth_50",
+      "description": "높은 난이도, 더 좋은 보상"
+    },
+    {
+      "timeline_id": "gamma",
+      "name": "감마 타임라인",
+      "unlock_condition": "perfect_loop_10_times",
+      "description": "극한의 도전, 최고의 보상"
+    }
+  ],
+  "floor_progression": {
+    "floor_groups": [
+      {
+        "floors": "1-10",
+        "name": "시작의 층",
+        "enemy_level_range": "1-5",
+        "room_types": ["combat", "treasure", "event"],
+        "boss": {
+          "floor": 10,
+          "name": "시간의 파수꾼",
+          "hp_multiplier": 10,
+          "special_mechanics": ["시간 정지 패턴"]
+        }
+      },
+      {
+        "floors": "11-25",
+        "name": "왜곡의 층",
+        "enemy_level_range": "6-12",
+        "room_types": ["combat", "treasure", "event", "puzzle"],
+        "special_mechanics": ["시간 왜곡 구역"],
+        "boss": {
+          "floor": 25,
+          "name": "과거의 메아리",
+          "hp_multiplier": 15,
+          "special_mechanics": ["분신 소환", "타임 리와인드"]
+        }
+      },
+      {
+        "floors": "26-50",
+        "name": "역설의 층",
+        "enemy_level_range": "13-25",
+        "room_types": ["combat", "treasure", "event", "puzzle", "paradox"],
+        "special_mechanics": ["타임 패러독스", "인과율 역전"],
+        "boss": {
+          "floor": 50,
+          "name": "미래의 그림자",
+          "hp_multiplier": 20,
+          "special_mechanics": ["미래 예측", "타임라인 분기", "필연의 공격"]
+        }
+      },
+      {
+        "floors": "51-100",
+        "name": "영원의 층",
+        "enemy_level_range": "26-50",
+        "room_types": ["combat", "treasure", "event", "puzzle", "paradox", "void"],
+        "special_mechanics": ["시간 붕괴", "무한 루프 트랩"],
+        "boss": {
+          "floor": 100,
+          "name": "시간의 지배자",
+          "hp_multiplier": 30,
+          "special_mechanics": ["시간 완전 정지", "다중 타임라인 동시 공격", "운명 조작"]
+        }
+      }
+    ]
+  },
+  "room_types": [
+    {
+      "type": "combat",
+      "weight": 50,
+      "description": "적과 전투하는 방",
+      "rewards": ["gold", "items"]
+    },
+    {
+      "type": "treasure",
+      "weight": 15,
+      "description": "보물 상자가 있는 방",
+      "rewards": ["rare_items", "gold"]
+    },
+    {
+      "type": "event",
+      "weight": 20,
+      "description": "랜덤 이벤트 발생",
+      "outcomes": ["buff", "debuff", "choice", "merchant"]
+    },
+    {
+      "type": "puzzle",
+      "weight": 10,
+      "description": "퍼즐을 풀어야 진행 가능",
+      "rewards": ["knowledge", "special_items"]
+    },
+    {
+      "type": "paradox",
+      "weight": 3,
+      "unlock_floor": 26,
+      "description": "시간 역설이 발생하는 특수 방",
+      "rewards": ["time_crystals", "timeline_keys"]
+    },
+    {
+      "type": "void",
+      "weight": 2,
+      "unlock_floor": 51,
+      "description": "시간이 붕괴된 공간",
+      "high_risk_high_reward": true
+    }
+  ],
+  "loop_objectives": {
+    "normal": {
+      "required": ["reach_depth_10"],
+      "optional": ["collect_all_treasures", "defeat_all_enemies", "discover_secrets"]
+    },
+    "perfect": {
+      "required": [
+        "complete_all_objectives",
+        "no_deaths",
+        "time_limit_met"
+      ],
+      "bonus_reward_multiplier": 1.5
+    }
+  },
+  "knowledge_system": {
+    "categories": [
+      {
+        "category": "enemies",
+        "discoveries": [
+          {
+            "id": "enemy_weakness",
+            "description": "적의 약점 발견",
+            "benefit": "해당 적에게 +20% 데미지"
+          },
+          {
+            "id": "enemy_pattern",
+            "description": "적의 공격 패턴 학습",
+            "benefit": "회피 확률 +15%"
+          }
+        ]
+      },
+      {
+        "category": "maps",
+        "discoveries": [
+          {
+            "id": "secret_path",
+            "description": "숨겨진 경로 발견",
+            "benefit": "지도에 표시, 숏컷 가능"
+          },
+          {
+            "id": "treasure_location",
+            "description": "보물 위치 기억",
+            "benefit": "지도에 보물 마크 표시"
+          }
+        ]
+      },
+      {
+        "category": "events",
+        "discoveries": [
+          {
+            "id": "event_outcome",
+            "description": "이벤트 선택지 결과",
+            "benefit": "최적의 선택 힌트 제공"
+          }
+        ]
+      }
+    ]
+  },
+  "difficulty_scaling": {
+    "hp_per_floor": 1.08,
+    "attack_per_floor": 1.06,
+    "reward_per_floor": 1.05,
+    "timeline_multipliers": {
+      "alpha": 1.0,
+      "beta": 1.5,
+      "gamma": 2.0
+    }
+  }
+}

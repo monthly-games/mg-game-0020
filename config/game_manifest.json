@@ -1,0 +1,14 @@
+{
+  "game_id": "game_0020",
+  "code_name": "MG-0020",
+  "title_kr": "타임 슬립 탐험대",
+  "title_en": "Time Slip Explorers",
+  "genre_tags": ["timeloop", "roguelite", "exploration", "meta"],
+  "target_region": ["KR", "Global"],
+  "engine_version": "1.0.0",
+  "analytics_profile": "default_v1",
+  "created_at": "2026-02-01",
+  "status": "development",
+  "year": 2,
+  "role": "타임루프/회귀 메타 '루프 프레임워크'화"
+}
