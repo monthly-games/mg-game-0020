@@ -7,7 +7,6 @@ import 'features/dungeon/room.dart';
 import 'screens/dungeon_screen.dart';
 import 'screens/battle_screen.dart';
 import 'screens/shop_screen.dart';
-import 'screens/meta_shop_screen.dart';
 import 'features/events/event_manager.dart';
 
 void main() async {

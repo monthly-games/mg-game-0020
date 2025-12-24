@@ -30,7 +30,7 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
   // FX
   late AnimationController _shakeController;
   late Animation<double> _shakeAnimation;
-  List<Widget> _floatingEffects = [];
+  final List<Widget> _floatingEffects = [];
 
   @override
   void initState() {

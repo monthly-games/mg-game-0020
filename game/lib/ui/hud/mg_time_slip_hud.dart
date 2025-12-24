@@ -40,7 +40,7 @@ class MGTimeSlipHud extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(MGSpacing.sm),
+        padding: const EdgeInsets.all(MGSpacing.sm),
         child: Column(
           children: [
             // 상단 HUD
@@ -49,15 +49,15 @@ class MGTimeSlipHud extends StatelessWidget {
               children: [
                 // 왼쪽: HP 바
                 Expanded(flex: 2, child: _buildHpBar()),
-                SizedBox(width: MGSpacing.sm),
+                const SizedBox(width: MGSpacing.sm),
                 // 중앙: 층수
                 _buildFloorInfo(),
-                SizedBox(width: MGSpacing.sm),
+                const SizedBox(width: MGSpacing.sm),
                 // 오른쪽: 버튼들
                 _buildActionButtons(),
               ],
             ),
-            SizedBox(height: MGSpacing.xs),
+            const SizedBox(height: MGSpacing.xs),
             // 골드 & 타임슬립 게이지
             Row(
               children: [
@@ -90,7 +90,7 @@ class MGTimeSlipHud extends StatelessWidget {
     final double hpRatio = playerMaxHp > 0 ? playerHp / playerMaxHp : 0;
 
     return Container(
-      padding: EdgeInsets.all(MGSpacing.xs),
+      padding: const EdgeInsets.all(MGSpacing.xs),
       decoration: BoxDecoration(
         color: MGColors.surface.withOpacity(0.85),
         borderRadius: BorderRadius.circular(MGSpacing.sm),
@@ -98,8 +98,8 @@ class MGTimeSlipHud extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.favorite, color: Colors.red, size: 18),
-          SizedBox(width: MGSpacing.xs),
+          const Icon(Icons.favorite, color: Colors.red, size: 18),
+          const SizedBox(width: MGSpacing.xs),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +111,7 @@ class MGTimeSlipHud extends StatelessWidget {
                   backgroundColor: Colors.red.withOpacity(0.2),
                   progressColor: hpRatio > 0.3 ? Colors.red : Colors.orange,
                 ),
-                SizedBox(height: MGSpacing.xxs),
+                const SizedBox(height: MGSpacing.xxs),
                 Text(
                   '$playerHp / $playerMaxHp',
                   style: MGTextStyles.caption.copyWith(
@@ -128,7 +128,7 @@ class MGTimeSlipHud extends StatelessWidget {
 
   Widget _buildFloorInfo() {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: MGSpacing.md,
         vertical: MGSpacing.xs,
       ),
@@ -186,7 +186,7 @@ class MGTimeSlipHud extends StatelessWidget {
 
   Widget _buildTimeSlipGauge() {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: MGSpacing.sm,
         vertical: MGSpacing.xs,
       ),
@@ -198,12 +198,12 @@ class MGTimeSlipHud extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.history, color: Colors.cyan, size: 16),
-          SizedBox(width: MGSpacing.xs),
+          const Icon(Icons.history, color: Colors.cyan, size: 16),
+          const SizedBox(width: MGSpacing.xs),
           ...List.generate(maxTimeSlipCharges, (index) {
             final bool isFilled = index < timeSlipCharges;
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Icon(
                 isFilled ? Icons.hourglass_full : Icons.hourglass_empty,
                 color: isFilled ? Colors.cyan : Colors.grey,
@@ -220,12 +220,12 @@ class MGTimeSlipHud extends StatelessWidget {
     return GestureDetector(
       onTap: onTimeSlip,
       child: Container(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: MGSpacing.xl,
           vertical: MGSpacing.md,
         ),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [
               Colors.cyan,
               Colors.blue,
@@ -244,8 +244,8 @@ class MGTimeSlipHud extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.history, color: Colors.white, size: 24),
-            SizedBox(width: MGSpacing.sm),
+            const Icon(Icons.history, color: Colors.white, size: 24),
+            const SizedBox(width: MGSpacing.sm),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
