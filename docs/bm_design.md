@@ -1,7 +1,13 @@
-# 타임 슬립 탐험대 - BM 설계 문서
+﻿# 타임 슬립 탐험대 - BM 설계 문서
 
 > game_id: game_0020
 > repo: mg-game-0020
+> title_kr: 타임 슬립 탐험대
+> title_en: Time Slip Explorers
+> genre_tags: timeloop, roguelite, exploration, meta
+> doc_type: bm_design
+> source_of_truth: docs/design/gdd_game_0020.json
+> last_updated: 2025-12-19
 
 ---
 
