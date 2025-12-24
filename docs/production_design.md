@@ -275,16 +275,16 @@ String getHint(KnowledgeDB db, Room room) {
 ## 6. 프로덕션 체크리스트
 
 ### 핵심 기능
-- [ ] 타임루프 시스템
-- [ ] 던전 생성 알고리즘
+- [x] 타임루프 시스템 (GameState: 사망 시 루프 리셋, 층 진행)
+- [x] 던전 생성 알고리즘 (DungeonManager: battle/event/shop/boss 방 생성)
 - [ ] 메타 성장 시스템
 - [ ] 지식 DB
 - [ ] 타임라인 분기
 
 ### 콘텐츠
-- [ ] 15+ 층
-- [ ] 50+ 적
-- [ ] 100+ 아이템
+- [x] 층 구조 (10층마다 보스, 2~3 방 선택지)
+- [x] 적 생성 (EnemyFactory: 층별 스케일링)
+- [x] 이벤트 시스템 (EventManager: fountain/trap/treasure 3종)
 - [ ] 5+ 타임라인
 - [ ] 10+ 엔딩
 
@@ -332,3 +332,4 @@ String getHint(KnowledgeDB db, Room room) {
 ---
 
 *마지막 업데이트: 2025-12-19*
+
