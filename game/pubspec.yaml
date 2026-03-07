@@ -11,10 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   flame: ^1.13.0
-  get_it: ^7.6.6
+  get_it: 9.2.1
   equatable: ^2.0.5
   mg_common_game:
-    path: ../libs/mg_common_game
+    path: ../../../libs/mg_common_game
   cupertino_icons: ^1.0.8
 
 dev_dependencies:

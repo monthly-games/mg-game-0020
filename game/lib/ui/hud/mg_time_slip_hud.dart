@@ -92,7 +92,7 @@ class MGTimeSlipHud extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(MGSpacing.xs),
       decoration: BoxDecoration(
-        color: MGColors.surface.withOpacity(0.85),
+        color: MGColors.surface.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(MGSpacing.sm),
         border: Border.all(color: MGColors.border),
       ),
@@ -108,7 +108,7 @@ class MGTimeSlipHud extends StatelessWidget {
                 MGLinearProgress(
                   value: hpRatio,
                   height: 12,
-                  backgroundColor: Colors.red.withOpacity(0.2),
+                  backgroundColor: Colors.red.withValues(alpha: 0.2),
                   progressColor: hpRatio > 0.3 ? Colors.red : Colors.orange,
                 ),
                 const SizedBox(height: MGSpacing.xxs),
@@ -135,8 +135,8 @@ class MGTimeSlipHud extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.deepPurple.withOpacity(0.8),
-            Colors.purple.withOpacity(0.5),
+            Colors.deepPurple.withValues(alpha: 0.8),
+            Colors.purple.withValues(alpha: 0.5),
           ],
         ),
         borderRadius: BorderRadius.circular(MGSpacing.sm),
@@ -191,9 +191,9 @@ class MGTimeSlipHud extends StatelessWidget {
         vertical: MGSpacing.xs,
       ),
       decoration: BoxDecoration(
-        color: Colors.cyan.withOpacity(0.2),
+        color: Colors.cyan.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(MGSpacing.xs),
-        border: Border.all(color: Colors.cyan.withOpacity(0.5)),
+        border: Border.all(color: Colors.cyan.withValues(alpha: 0.5)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -235,7 +235,7 @@ class MGTimeSlipHud extends StatelessWidget {
           border: Border.all(color: Colors.white24, width: 2),
           boxShadow: [
             BoxShadow(
-              color: Colors.cyan.withOpacity(0.5),
+              color: Colors.cyan.withValues(alpha: 0.5),
               blurRadius: 16,
               spreadRadius: 2,
             ),

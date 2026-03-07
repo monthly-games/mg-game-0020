@@ -74,24 +74,6 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "cloud_firestore",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore-4.17.5",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
-      "name": "cloud_firestore_platform_interface",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_platform_interface-6.2.5",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
-      "name": "cloud_firestore_web",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/cloud_firestore_web-3.12.5",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
       "name": "collection",
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.19.1",
       "packageUri": "lib/",
@@ -108,6 +90,18 @@
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.8",
       "packageUri": "lib/",
       "languageVersion": "3.1"
+    },
+    {
+      "name": "device_info_plus",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/device_info_plus-11.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
+      "name": "device_info_plus_platform_interface",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/device_info_plus_platform_interface-7.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
     },
     {
       "name": "equatable",
@@ -152,24 +146,6 @@
       "languageVersion": "3.2"
     },
     {
-      "name": "firebase_auth",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth-4.16.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
-      "name": "firebase_auth_platform_interface",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth_platform_interface-7.3.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
-      "name": "firebase_auth_web",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_auth_web-5.8.13",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
       "name": "firebase_core",
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_core-2.32.0",
       "packageUri": "lib/",
@@ -186,6 +162,36 @@
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_core_web-2.24.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "firebase_crashlytics",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_crashlytics-3.5.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_crashlytics_platform_interface",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_crashlytics_platform_interface-3.6.35",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_remote_config",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_remote_config-4.4.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_remote_config_platform_interface",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_remote_config_platform_interface-1.4.35",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_remote_config_web",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_remote_config_web-1.6.7",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "fixnum",
@@ -237,15 +243,21 @@
     },
     {
       "name": "freezed_annotation",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/freezed_annotation-2.4.4",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/freezed_annotation-3.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "get_it",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/get_it-7.7.0",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/get_it-9.2.1",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "google_mobile_ads",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/google_mobile_ads-5.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "http",
@@ -273,9 +285,9 @@
     },
     {
       "name": "intl",
-      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.18.1",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.20.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.3"
     },
     {
       "name": "js",
@@ -333,7 +345,7 @@
     },
     {
       "name": "mg_common_game",
-      "rootUri": "../../../mg-common-game",
+      "rootUri": "../../../../libs/mg_common_game",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -518,6 +530,18 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "vibration",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/vibration-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "vibration_platform_interface",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/vibration_platform_interface-0.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vm_service",
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-15.0.2",
       "packageUri": "lib/",
@@ -534,6 +558,42 @@
       "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "webview_flutter",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter-4.13.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
+    },
+    {
+      "name": "webview_flutter_android",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_android-4.10.13",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "webview_flutter_platform_interface",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_platform_interface-2.14.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "webview_flutter_wkwebview",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/webview_flutter_wkwebview-3.23.8",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "win32",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.15.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
+    },
+    {
+      "name": "win32_registry",
+      "rootUri": "file:///C:/Users/USER-5/AppData/Local/Pub/Cache/hosted/pub.dev/win32_registry-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
     },
     {
       "name": "xdg_directories",
