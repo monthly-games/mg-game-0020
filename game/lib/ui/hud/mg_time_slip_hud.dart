@@ -98,7 +98,7 @@ class MGTimeSlipHud extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.favorite, color: Colors.red, size: 18),
+          const Icon(Icons.favorite, color: MGColors.error, size: 18),
           const SizedBox(width: MGSpacing.xs),
           Expanded(
             child: Column(
@@ -108,14 +108,14 @@ class MGTimeSlipHud extends StatelessWidget {
                 MGLinearProgress(
                   value: hpRatio,
                   height: 12,
-                  backgroundColor: Colors.red.withValues(alpha: 0.2),
-                  progressColor: hpRatio > 0.3 ? Colors.red : Colors.orange,
+                  backgroundColor: MGColors.error.withValues(alpha: 0.2),
+                  progressColor: hpRatio > 0.3 ? MGColors.error : MGColors.warning,
                 ),
                 const SizedBox(height: MGSpacing.xxs),
                 Text(
                   '$playerHp / $playerMaxHp',
                   style: MGTextStyles.caption.copyWith(
-                    color: Colors.white,
+                    color: MGColors.textHighEmphasis,
                   ),
                 ),
               ],
@@ -148,7 +148,7 @@ class MGTimeSlipHud extends StatelessWidget {
           Text(
             'Floor $currentFloor',
             style: MGTextStyles.buttonMedium.copyWith(
-              color: Colors.white,
+              color: MGColors.textHighEmphasis,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -206,7 +206,7 @@ class MGTimeSlipHud extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Icon(
                 isFilled ? Icons.hourglass_full : Icons.hourglass_empty,
-                color: isFilled ? Colors.cyan : Colors.grey,
+                color: isFilled ? Colors.cyan : MGColors.common,
                 size: 18,
               ),
             );
@@ -228,7 +228,7 @@ class MGTimeSlipHud extends StatelessWidget {
           gradient: const LinearGradient(
             colors: [
               Colors.cyan,
-              Colors.blue,
+              MGColors.info,
             ],
           ),
           borderRadius: BorderRadius.circular(MGSpacing.md),
@@ -244,7 +244,7 @@ class MGTimeSlipHud extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.history, color: Colors.white, size: 24),
+            const Icon(Icons.history, color: MGColors.textHighEmphasis, size: 24),
             const SizedBox(width: MGSpacing.sm),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -252,7 +252,7 @@ class MGTimeSlipHud extends StatelessWidget {
                 Text(
                   'TIME SLIP',
                   style: MGTextStyles.buttonMedium.copyWith(
-                    color: Colors.white,
+                    color: MGColors.textHighEmphasis,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

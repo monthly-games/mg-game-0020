@@ -4,6 +4,7 @@ import '../../core/game_state.dart';
 import '../features/dungeon/room.dart';
 import '../../core/ui/floating_text.dart';
 import '../features/battle/battle_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class BattleScreen extends StatefulWidget {
   final GameState gameState;
@@ -97,7 +98,7 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
       
       final damageDealt = prevEnemyHp - _battleManager.currentEnemyHp;
       if (damageDealt > 0) {
-        _addFloatingText(damageDealt.toString(), Colors.white, true);
+        _addFloatingText(damageDealt.toString(), MGColors.textHighEmphasis, true);
         _shakeController.forward();
       }
 
@@ -112,7 +113,7 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
            log += '\n$enemyLog';
            final damageTaken = prevPlayerHp - widget.gameState.currentHp;
            if (damageTaken > 0) {
-             _addFloatingText(damageTaken.toString(), Colors.red, false);
+             _addFloatingText(damageTaken.toString(), MGColors.error, false);
              _shakeController.forward();
            }
         }
@@ -152,28 +153,28 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
                           children: [
                              Text(
                               'Enemy: ${_battleManager.enemy.name}', 
-                              style: const TextStyle(color: Colors.red, fontSize: 20),
+                              style: const TextStyle(color: MGColors.error, fontSize: 20),
                             ),
                             const SizedBox(height: 10),
                             Container(
                               width: 100, 
                               height: 100, 
                               color: Colors.redAccent,
-                              child: const Icon(Icons.android, size: 50, color: Colors.white),
+                              child: const Icon(Icons.android, size: 50, color: MGColors.textHighEmphasis),
                             ),
                             const SizedBox(height: 10),
                             LinearProgressIndicator(
                               value: _battleManager.enemy.maxHp > 0 ? _battleManager.currentEnemyHp / _battleManager.enemy.maxHp : 0,
-                              valueColor: const AlwaysStoppedAnimation(Colors.red),
+                              valueColor: const AlwaysStoppedAnimation(MGColors.error),
                               backgroundColor: Colors.red[900],
                             ),
-                            Text('${_battleManager.currentEnemyHp} / ${_battleManager.enemy.maxHp}', style: const TextStyle(color: Colors.white)),
+                            Text('${_battleManager.currentEnemyHp} / ${_battleManager.enemy.maxHp}', style: const TextStyle(color: MGColors.textHighEmphasis)),
                           ],
                         ),
                       ),
                     ),
                     
-                    const Divider(color: Colors.grey),
+                    const Divider(color: MGColors.common),
   
                     // Log
                     Container(
@@ -184,7 +185,7 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
                         borderRadius: BorderRadius.circular(8),
                       ),
                       alignment: Alignment.center,
-                      child: Text(log, style: const TextStyle(color: Colors.white), textAlign: TextAlign.center),
+                      child: Text(log, style: const TextStyle(color: MGColors.textHighEmphasis), textAlign: TextAlign.center),
                     ),
                     
                     const SizedBox(height: 20),
@@ -195,13 +196,13 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
                       children: [
                         Column(
                           children: [
-                            const Text('YOU', style: TextStyle(color: Colors.green)),
-                            Text('${widget.gameState.currentHp} / ${widget.gameState.maxHp} HP', style: const TextStyle(color: Colors.white)),
+                            const Text('YOU', style: TextStyle(color: MGColors.success)),
+                            Text('${widget.gameState.currentHp} / ${widget.gameState.maxHp} HP', style: const TextStyle(color: MGColors.textHighEmphasis)),
                           ],
                         ),
                         ElevatedButton(
                           onPressed: !_battleManager.isVictory && !_battleManager.isDefeat ? _playerAttack : null,
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                          style: ElevatedButton.styleFrom(backgroundColor: MGColors.error),
                           child: const Text('ATTACK'),
                         ),
                       ],

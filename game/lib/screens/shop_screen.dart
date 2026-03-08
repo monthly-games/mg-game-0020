@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/game_state.dart';
 import '../features/items/item_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class ShopScreen extends StatelessWidget {
   final GameState gameState;
@@ -34,7 +35,7 @@ class ShopScreen extends StatelessWidget {
           final item = ItemManager.allItems[index];
           return ListTile(
             leading: const Icon(Icons.shopping_bag, color: Colors.amber),
-            title: Text(item.name, style: const TextStyle(color: Colors.white)),
+            title: Text(item.name, style: const TextStyle(color: MGColors.textHighEmphasis)),
             subtitle: Text(
               item.description,
               style: const TextStyle(color: Colors.white70),
