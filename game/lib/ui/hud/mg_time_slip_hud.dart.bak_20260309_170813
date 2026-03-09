@@ -20,7 +20,6 @@ class MGTimeSlipHud extends StatelessWidget {
   final VoidCallback? onPause;
   final VoidCallback? onTimeSlip;
   final VoidCallback? onInventory;
-  final VoidCallback? onDailyHub;
 
   const MGTimeSlipHud({
     super.key,
@@ -35,7 +34,6 @@ class MGTimeSlipHud extends StatelessWidget {
     this.onPause,
     this.onTimeSlip,
     this.onInventory,
-    this.onDailyHub,
   });
 
   @override
@@ -176,13 +174,6 @@ class MGTimeSlipHud extends StatelessWidget {
             onPressed: onInventory!,
             size: MGIconButtonSize.small,
           ),
-                if (onDailyHub != null)
-                  MGIconButton(
-                    icon: Icons.calendar_today,
-                    onPressed: onDailyHub!,
-                    buttonSize: MGIconButtonSize.small,
-                  ),
-                const SizedBox(width: MGSpacing.xs),
         if (onPause != null)
           MGIconButton(
             icon: Icons.pause,
