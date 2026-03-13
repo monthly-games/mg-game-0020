@@ -52,6 +52,24 @@ class _DungeonScreenState extends State<DungeonScreen> {
               ),
             ),
           ),
+          IconButton(
+            icon: const Icon(Icons.shield),
+            tooltip: 'Guild War',
+            onPressed: () =>
+                Navigator.of(context).pushNamed('/guild-war'),
+          ),
+          IconButton(
+            icon: const Icon(Icons.emoji_events),
+            tooltip: 'Tournament',
+            onPressed: () =>
+                Navigator.of(context).pushNamed('/tournament'),
+          ),
+          IconButton(
+            icon: const Icon(Icons.celebration),
+            tooltip: 'Seasonal Event',
+            onPressed: () =>
+                Navigator.of(context).pushNamed('/seasonal-event'),
+          ),
         ],
       ),
       body: Center(
