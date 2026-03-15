@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 /// VFX Manager for Time Slip Explorers (MG-0020)
 /// Time Loop + Roguelite + Exploration 게임 전용 이펙트 관리자
-class VfxManager extends Component with HasGameRef {
+class VfxManager extends Component with HasGameReference {
   VfxManager();
   final Random _random = Random();
 
@@ -16,83 +16,83 @@ class VfxManager extends Component with HasGameRef {
     for (int i = 0; i < 3; i++) {
       Future.delayed(Duration(milliseconds: i * 100), () {
         if (!isMounted) return;
-        gameRef.add(_createExplosionEffect(position: centerPosition, color: i == 0 ? Colors.white : Colors.cyan.withValues(alpha: 0.7), count: 40 - i * 10, radius: 120 - i * 20.0));
+        game.add(_createExplosionEffect(position: centerPosition, color: i == 0 ? Colors.white : Colors.cyan.withValues(alpha: 0.7), count: 40 - i * 10, radius: 120 - i * 20.0));
       });
     }
     _triggerScreenShake(intensity: 8, duration: 0.5);
-    gameRef.add(_LoopResetText(position: centerPosition));
+    game.add(_LoopResetText(position: centerPosition));
   }
 
   void showTimeWarp(Vector2 position) {
-    gameRef.add(_createSpiralEffect(position: position, color: Colors.cyan));
-    gameRef.add(_createSparkleEffect(position: position, color: Colors.white, count: 15));
+    game.add(_createSpiralEffect(position: position, color: Colors.cyan));
+    game.add(_createSparkleEffect(position: position, color: Colors.white, count: 15));
   }
 
   void showTimelineBranch(Vector2 position, bool isGoodPath) {
     final color = isGoodPath ? Colors.green : Colors.purple;
-    gameRef.add(_createExplosionEffect(position: position, color: color, count: 25, radius: 55));
-    gameRef.add(_createSparkleEffect(position: position, color: Colors.white, count: 12));
+    game.add(_createExplosionEffect(position: position, color: color, count: 25, radius: 55));
+    game.add(_createSparkleEffect(position: position, color: Colors.white, count: 12));
   }
 
   // Exploration Effects
   void showStageEntrance(Vector2 position) {
-    gameRef.add(_PortalEffect(position: position));
-    gameRef.add(_createSparkleEffect(position: position, color: Colors.cyan, count: 18));
+    game.add(_PortalEffect(position: position));
+    game.add(_createSparkleEffect(position: position, color: Colors.cyan, count: 18));
   }
 
   void showDiscovery(Vector2 position) {
-    gameRef.add(_createExplosionEffect(position: position, color: Colors.amber, count: 20, radius: 50));
-    gameRef.add(_createSparkleEffect(position: position, color: Colors.yellow, count: 12));
+    game.add(_createExplosionEffect(position: position, color: Colors.amber, count: 20, radius: 50));
+    game.add(_createSparkleEffect(position: position, color: Colors.yellow, count: 12));
     showNumberPopup(position, 'DISCOVERED!', color: Colors.amber);
   }
 
   void showSecretFound(Vector2 position) {
-    gameRef.add(_createExplosionEffect(position: position, color: Colors.purple, count: 30, radius: 60));
-    gameRef.add(_createSparkleEffect(position: position, color: Colors.white, count: 18));
-    gameRef.add(_SecretText(position: position));
+    game.add(_createExplosionEffect(position: position, color: Colors.purple, count: 30, radius: 60));
+    game.add(_createSparkleEffect(position: position, color: Colors.white, count: 18));
+    game.add(_SecretText(position: position));
   }
 
   // Meta Progression Effects
   void showMetaTierUp(Vector2 position) {
-    gameRef.add(_createExplosionEffect(position: position, color: Colors.amber, count: 45, radius: 80));
+    game.add(_createExplosionEffect(position: position, color: Colors.amber, count: 45, radius: 80));
     for (int i = 0; i < 5; i++) {
       Future.delayed(Duration(milliseconds: i * 100), () {
         if (!isMounted) return;
-        gameRef.add(_createSparkleEffect(position: position + Vector2((_random.nextDouble() - 0.5) * 80, (_random.nextDouble() - 0.5) * 60), color: Colors.yellow, count: 8));
+        game.add(_createSparkleEffect(position: position + Vector2((_random.nextDouble() - 0.5) * 80, (_random.nextDouble() - 0.5) * 60), color: Colors.yellow, count: 8));
       });
     }
-    gameRef.add(_TierUpText(position: position));
+    game.add(_TierUpText(position: position));
     _triggerScreenShake(intensity: 4, duration: 0.3);
   }
 
   void showKnowledgeUnlock(Vector2 position) {
-    gameRef.add(_createRisingEffect(position: position, color: Colors.lightBlue, count: 15, speed: 70));
-    gameRef.add(_createSparkleEffect(position: position, color: Colors.cyan, count: 12));
-    gameRef.add(_KnowledgeText(position: position));
+    game.add(_createRisingEffect(position: position, color: Colors.lightBlue, count: 15, speed: 70));
+    game.add(_createSparkleEffect(position: position, color: Colors.cyan, count: 12));
+    game.add(_KnowledgeText(position: position));
   }
 
   // Combat Effects
   void showDamageNumber(Vector2 position, int damage, {bool isCritical = false}) {
-    gameRef.add(_DamageNumber(position: position, damage: damage, isCritical: isCritical));
+    game.add(_DamageNumber(position: position, damage: damage, isCritical: isCritical));
   }
 
   void showSkillActivation(Vector2 position, Color skillColor) {
-    gameRef.add(_createConvergeEffect(position: position, color: skillColor));
-    gameRef.add(_createGroundCircle(position: position, color: skillColor));
+    game.add(_createConvergeEffect(position: position, color: skillColor));
+    game.add(_createGroundCircle(position: position, color: skillColor));
   }
 
   void showEnemyDeath(Vector2 position) {
-    gameRef.add(_createExplosionEffect(position: position, color: Colors.red, count: 18, radius: 45));
-    gameRef.add(_createSmokeEffect(position: position, count: 6));
+    game.add(_createExplosionEffect(position: position, color: Colors.red, count: 18, radius: 45));
+    game.add(_createSmokeEffect(position: position, count: 6));
   }
 
   void showNumberPopup(Vector2 position, String text, {Color color = Colors.white}) {
-    gameRef.add(_NumberPopup(position: position, text: text, color: color));
+    game.add(_NumberPopup(position: position, text: text, color: color));
   }
 
   void _triggerScreenShake({double intensity = 5, double duration = 0.3}) {
-    if (gameRef.camera.viewfinder.children.isNotEmpty) {
-      gameRef.camera.viewfinder.add(MoveByEffect(Vector2(intensity, 0), EffectController(duration: duration / 10, repeatCount: (duration * 10).toInt(), alternate: true)));
+    if (game.camera.viewfinder.children.isNotEmpty) {
+      game.camera.viewfinder.add(MoveByEffect(Vector2(intensity, 0), EffectController(duration: duration / 10, repeatCount: (duration * 10).toInt(), alternate: true)));
     }
   }
 
@@ -136,7 +136,11 @@ class VfxManager extends Component with HasGameRef {
       final angle = _random.nextDouble() * 2 * pi; final speed = 50 + _random.nextDouble() * 40;
       return AcceleratedParticle(position: position.clone(), speed: Vector2(cos(angle), sin(angle)) * speed, acceleration: Vector2(0, 40), child: ComputedParticle(renderer: (canvas, particle) {
         final opacity = (1.0 - particle.progress).clamp(0.0, 1.0); final size = 3 * (1.0 - particle.progress * 0.5);
-        final path = Path(); for (int j = 0; j < 4; j++) { final a = (j * pi / 2); if (j == 0) path.moveTo(cos(a) * size, sin(a) * size); else path.lineTo(cos(a) * size, sin(a) * size); } path.close();
+        final path = Path(); for (int j = 0; j < 4; j++) { final a = (j * pi / 2); if (j == 0) {
+          path.moveTo(cos(a) * size, sin(a) * size);
+        } else {
+          path.lineTo(cos(a) * size, sin(a) * size);
+        } } path.close();
         canvas.drawPath(path, Paint()..color = color.withValues(alpha: opacity));
       }));
     }));

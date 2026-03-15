@@ -12,7 +12,7 @@ const kExplorerMeta = SpineAssetMeta(
   key: 'explorer',
   path: 'spine/characters/explorer',
   atlasPath: 'assets/spine/characters/explorer/explorer.atlas',
-  skeletonPath: 'assets/spine/characters/explorer/explorer.skel',
+  skeletonPath: 'assets/spine/characters/explorer/explorer.json',
   animations: ['idle', 'walk', 'attack', 'hit'],
   defaultAnimation: 'idle',
   defaultMix: 0.2,
@@ -26,7 +26,7 @@ const kTimeGuardianMeta = SpineAssetMeta(
   atlasPath:
       'assets/spine/characters/time_guardian/time_guardian.atlas',
   skeletonPath:
-      'assets/spine/characters/time_guardian/time_guardian.skel',
+      'assets/spine/characters/time_guardian/time_guardian.json',
   animations: ['idle', 'walk', 'attack', 'hit'],
   defaultAnimation: 'idle',
   defaultMix: 0.2,
@@ -40,7 +40,7 @@ const kChronoScoutMeta = SpineAssetMeta(
   atlasPath:
       'assets/spine/characters/chrono_scout/chrono_scout.atlas',
   skeletonPath:
-      'assets/spine/characters/chrono_scout/chrono_scout.skel',
+      'assets/spine/characters/chrono_scout/chrono_scout.json',
   animations: ['idle', 'walk', 'attack', 'hit'],
   defaultAnimation: 'idle',
   defaultMix: 0.2,

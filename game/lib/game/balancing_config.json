@@ -1,0 +1,35 @@
+{
+  "gameId": "mg-0020",
+  "version": 1,
+  "currencies": [
+    {
+      "id": "gold",
+      "baseEarnRate": 12.0,
+      "earnCurve": "linear",
+      "earnGrowthFactor": 1.15,
+      "baseSpendRate": 1.0,
+      "spendCurve": "exponential",
+      "spendGrowthFactor": 1.2,
+      "inflationCap": 100.0
+    }
+  ],
+  "xpCurve": {
+    "baseXp": 100,
+    "curveType": "exponential",
+    "growthFactor": 1.5,
+    "maxLevel": 100,
+    "flatBonus": 0
+  },
+  "difficultyScaling": {
+    "baseDifficulty": 1.0,
+    "curveType": "exponential",
+    "scalingFactor": 0.12,
+    "maxDifficulty": 15.0,
+    "minDifficulty": 0.5
+  },
+  "customParams": {
+    "reward_multiplier": 1.0,
+    "floor_scaling": 1.0,
+    "loot_bonus_base": 1.0
+  }
+}

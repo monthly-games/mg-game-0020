@@ -1,10 +1,5 @@
+import 'package:mg_common_game/mg_common_game.dart';
 import 'package:flutter/material.dart';
-import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
-import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
-import 'package:mg_common_game/core/ui/typography/mg_text_styles.dart';
-import 'package:mg_common_game/core/ui/widgets/buttons/mg_icon_button.dart';
-import 'package:mg_common_game/core/ui/widgets/progress/mg_linear_progress.dart';
-import 'package:mg_common_game/core/ui/widgets/indicators/mg_resource_bar.dart';
 
 /// MG-0020 Time Slip Dungeon HUD
 /// 시간 역행 던전 게임용 HUD - HP, 타임슬립 게이지, 던전 층수, 아이템 표시
@@ -71,13 +66,9 @@ class MGTimeSlipHud extends StatelessWidget {
               children: [
                 // 골드
                 MGResourceBar(
-                  resources: [
-                    ResourceItem(
-                      icon: Icons.monetization_on,
-                      value: gold,
-                      color: MGColors.resourceGold,
-                    ),
-                  ],
+                  icon: Icons.monetization_on,
+                  value: '$gold',
+                  iconColor: MGColors.gold,
                 ),
                 const Spacer(),
                 // 타임슬립 게이지
@@ -117,7 +108,7 @@ class MGTimeSlipHud extends StatelessWidget {
                   value: hpRatio,
                   height: 12,
                   backgroundColor: MGColors.error.withValues(alpha: 0.2),
-                  progressColor: hpRatio > 0.3 ? MGColors.error : MGColors.warning,
+                  valueColor: hpRatio > 0.3 ? MGColors.error : MGColors.warning,
                 ),
                 const SizedBox(height: MGSpacing.xxs),
                 Text(
@@ -180,7 +171,7 @@ class MGTimeSlipHud extends StatelessWidget {
           MGIconButton(
             icon: Icons.inventory_2,
             onPressed: onInventory!,
-            size: MGIconButtonSize.small,
+            buttonSize: MGIconButtonSize.small,
           ),
                 if (onGuildWar != null)
                   MGIconButton(
@@ -214,7 +205,7 @@ class MGTimeSlipHud extends StatelessWidget {
           MGIconButton(
             icon: Icons.pause,
             onPressed: onPause!,
-            size: MGIconButtonSize.small,
+            buttonSize: MGIconButtonSize.small,
           ),
       ],
     );

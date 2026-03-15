@@ -2,7 +2,7 @@
 library;
 
 import 'package:flutter/foundation.dart';
-import 'package:mg_common_game/systems/gacha/gacha_config.dart';
+import 'package:mg_common_game/systems/gacha/gacha_pool.dart';
 import 'package:mg_common_game/systems/gacha/gacha_manager.dart';
 
 /// 게임 내 Artifact 모델
@@ -42,7 +42,7 @@ class ArtifactGachaAdapter extends ChangeNotifier {
   void _initPool() {
     final pool = GachaPool(
       id: _poolId,
-      name: 'Time Slip 가챠',
+      nameKr: 'Time Slip 가챠',
       items: _generateItems(),
       startDate: DateTime.now().subtract(const Duration(days: 1)),
       endDate: DateTime.now().add(const Duration(days: 365)),
@@ -53,30 +53,30 @@ class ArtifactGachaAdapter extends ChangeNotifier {
   List<GachaItem> _generateItems() {
     return [
       // UR (0.6%)
-      GachaItem(id: 'ur_timeslip_001', name: '전설의 Artifact', rarity: GachaRarity.ultraRare, weight: 1.0),
-      GachaItem(id: 'ur_timeslip_002', name: '신화의 Artifact', rarity: GachaRarity.ultraRare, weight: 1.0),
+      const GachaItem(id: 'ur_timeslip_001', nameKr: '전설의 Artifact', rarity: GachaRarity.ultraRare),
+      const GachaItem(id: 'ur_timeslip_002', nameKr: '신화의 Artifact', rarity: GachaRarity.ultraRare),
       // SSR (2.4%)
-      GachaItem(id: 'ssr_timeslip_001', name: '영웅의 Artifact', rarity: GachaRarity.superSuperRare, weight: 1.0),
-      GachaItem(id: 'ssr_timeslip_002', name: '고대의 Artifact', rarity: GachaRarity.superSuperRare, weight: 1.0),
-      GachaItem(id: 'ssr_timeslip_003', name: '황금의 Artifact', rarity: GachaRarity.superSuperRare, weight: 1.0),
+      const GachaItem(id: 'ssr_timeslip_001', nameKr: '영웅의 Artifact', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'ssr_timeslip_002', nameKr: '고대의 Artifact', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'ssr_timeslip_003', nameKr: '황금의 Artifact', rarity: GachaRarity.superRare),
       // SR (12%)
-      GachaItem(id: 'sr_timeslip_001', name: '희귀한 Artifact A', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_timeslip_002', name: '희귀한 Artifact B', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_timeslip_003', name: '희귀한 Artifact C', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_timeslip_004', name: '희귀한 Artifact D', rarity: GachaRarity.superRare, weight: 1.0),
+      const GachaItem(id: 'sr_timeslip_001', nameKr: '희귀한 Artifact A', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'sr_timeslip_002', nameKr: '희귀한 Artifact B', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'sr_timeslip_003', nameKr: '희귀한 Artifact C', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'sr_timeslip_004', nameKr: '희귀한 Artifact D', rarity: GachaRarity.superRare),
       // R (35%)
-      GachaItem(id: 'r_timeslip_001', name: '우수한 Artifact A', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_timeslip_002', name: '우수한 Artifact B', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_timeslip_003', name: '우수한 Artifact C', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_timeslip_004', name: '우수한 Artifact D', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_timeslip_005', name: '우수한 Artifact E', rarity: GachaRarity.rare, weight: 1.0),
+      const GachaItem(id: 'r_timeslip_001', nameKr: '우수한 Artifact A', rarity: GachaRarity.rare),
+      const GachaItem(id: 'r_timeslip_002', nameKr: '우수한 Artifact B', rarity: GachaRarity.rare),
+      const GachaItem(id: 'r_timeslip_003', nameKr: '우수한 Artifact C', rarity: GachaRarity.rare),
+      const GachaItem(id: 'r_timeslip_004', nameKr: '우수한 Artifact D', rarity: GachaRarity.rare),
+      const GachaItem(id: 'r_timeslip_005', nameKr: '우수한 Artifact E', rarity: GachaRarity.rare),
       // N (50%)
-      GachaItem(id: 'n_timeslip_001', name: '일반 Artifact A', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_timeslip_002', name: '일반 Artifact B', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_timeslip_003', name: '일반 Artifact C', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_timeslip_004', name: '일반 Artifact D', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_timeslip_005', name: '일반 Artifact E', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_timeslip_006', name: '일반 Artifact F', rarity: GachaRarity.normal, weight: 1.0),
+      const GachaItem(id: 'n_timeslip_001', nameKr: '일반 Artifact A', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_timeslip_002', nameKr: '일반 Artifact B', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_timeslip_003', nameKr: '일반 Artifact C', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_timeslip_004', nameKr: '일반 Artifact D', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_timeslip_005', nameKr: '일반 Artifact E', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_timeslip_006', nameKr: '일반 Artifact F', rarity: GachaRarity.normal),
     ];
   }
 
@@ -98,7 +98,7 @@ class ArtifactGachaAdapter extends ChangeNotifier {
   Artifact _convertToItem(GachaItem item) {
     return Artifact(
       id: item.id,
-      name: item.name,
+      name: item.nameKr,
       rarity: item.rarity,
     );
   }

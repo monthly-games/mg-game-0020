@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../core/game_state.dart';
 import '../features/dungeon/dungeon_manager.dart';
 import '../features/dungeon/room.dart';
-import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class DungeonScreen extends StatefulWidget {
   final GameState gameState;
