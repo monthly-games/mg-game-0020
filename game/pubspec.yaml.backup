@@ -1,0 +1,40 @@
+name: game
+description: "Time Slip Expedition Game"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.3
+
+dependencies:
+  provider: ^6.0.0
+  # google_mobile_ads: ^5.2.0  # Disabled due to manifest merger conflict with Firebase
+  flutter:
+    sdk: flutter
+  flame: ^1.13.0
+  flame_spine: ^0.3.0+1
+  get_it: 9.2.1
+  equatable: ^2.0.5
+  mg_common_game:
+    path: ../libs/mg_common_game
+  cupertino_icons: ^1.0.8
+
+  shared_preferences: ^2.5.4
+  firebase_core: ^2.32.0
+  cloud_firestore: ^4.17.5
+  firebase_auth: ^4.16.0
+  firebase_remote_config: ^4.4.7
+  # firebase_analytics: ^10.10.7  # Disabled due to manifest merger conflict with google_mobile_ads
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/audio/sfx/
+    - assets/audio/bgm/
+    - assets/spine/
