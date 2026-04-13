@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
+import 'package:mg_common_game/core/localization/localization.dart';
 // ============================================================
-// Achievement Screen — MG-0020 Time Slip Explorers
+// Achievement Screen -- MG-0020 Time Slip Explorers
 // Genre: Crossgame / Raid / Event · Retention System UI
 //
 // Template: Based on MG-0024 canonical template.

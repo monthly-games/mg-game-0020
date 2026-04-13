@@ -20,6 +20,11 @@ class BattleManager {
 
     _playSfx('sfx_attack_player');
 
+    // BALANCE FIX: Grant XP when defeating enemies for player scaling
+    if (currentEnemyHp <= 0) {
+      gameState.addXp(enemy.expReward);
+    }
+
     return 'You hit ${enemy.name} for $dmg damage!';
   }
 

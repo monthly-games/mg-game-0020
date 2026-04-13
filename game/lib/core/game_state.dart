@@ -8,6 +8,8 @@ class GameState extends ChangeNotifier {
   int maxHp = 100;
   int floor = 1;
   int gold = 0; // Run currency
+  int xp = 0; // Experience points earned in current run
+  int level = 1; // Player level within current run
 
   // Inventory
   final List<Item> inventory = [];
@@ -15,15 +17,23 @@ class GameState extends ChangeNotifier {
   // Meta Stats
   int timeCrystals = 0; // Permanent currency
 
-  // Upgrades
+  // Upgrades (meta progression)
   int upgradeHpLevel = 0;
   int upgradeGoldLevel = 0;
   int upgradeDamageLevel = 0;
 
-  // Derived Stats
-  int get playerMaxHp => 100 + (upgradeHpLevel * 10);
+  // BALANCE FIX: Added player level scaling to match enemy scaling
+  // Enemies scale 15% per floor (3.85x by floor 20), now players scale 10% per level
+  // Level-up XP requirement: 50 * level (capped to prevent infinite scaling)
+  int get xpToNextLevel => 50 * level;
+  int get maxLevel => 20; // Cap to prevent power spiral
+
+  // Derived Stats - now include both meta upgrades AND run-level scaling
+  // Meta upgrades provide baseline, level-ups provide in-run scaling
+  // BALANCE FIX: Added +10 HP and +2 ATK per level (10% scaling from base)
+  int get playerMaxHp => (100 + (upgradeHpLevel * 10)) + ((level - 1) * 10);
   int get playerStartGold => upgradeGoldLevel * 50;
-  int get playerDamage => 10 + (upgradeDamageLevel * 2);
+  int get playerDamage => (10 + (upgradeDamageLevel * 2)) + ((level - 1) * 2);
 
   // State
   bool isRunActive = false;
@@ -54,6 +64,8 @@ class GameState extends ChangeNotifier {
     floor = 1;
     gold = playerStartGold;
     inventory.clear();
+    xp = 0;
+    level = 1;
     // Start with a potion for testing
     final starterPotion = ItemManager.getItem('potion_small');
     if (starterPotion != null) inventory.add(starterPotion);
@@ -135,5 +147,35 @@ class GameState extends ChangeNotifier {
     }
 
     return consumed;
+  }
+
+  // BALANCE FIX: Added XP gain and level-up system
+  // Players gain XP from defeating enemies, allowing them to scale during runs
+  // This addresses the issue where enemies scale 3.85x by floor 20 but players didn't scale
+  void addXp(int amount) {
+    if (!isRunActive || level >= maxLevel) return;
+
+    xp += amount;
+    while (xp >= xpToNextLevel && level < maxLevel) {
+      xp -= xpToNextLevel;
+      _levelUp();
+    }
+    notifyListeners();
+  }
+
+  void _levelUp() {
+    if (level >= maxLevel) return;
+
+    level++;
+    final oldMaxHp = maxHp;
+
+    // Recalculate max HP with new level
+    final newMaxHp = (100 + (upgradeHpLevel * 10)) + ((level - 1) * 10);
+    final hpGain = newMaxHp - oldMaxHp;
+
+    maxHp = newMaxHp;
+    currentHp += hpGain; // Also heal by the amount gained
+
+    notifyListeners();
   }
 }

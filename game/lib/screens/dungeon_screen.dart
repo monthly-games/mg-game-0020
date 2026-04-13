@@ -1,7 +1,10 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
+import 'package:mg_common_game/core/localization/localization.dart';
 import 'package:flutter/material.dart';
 import '../../core/game_state.dart';
 import '../features/dungeon/dungeon_manager.dart';
 import '../features/dungeon/room.dart';
+
 
 class DungeonScreen extends StatefulWidget {
   final GameState gameState;
@@ -40,7 +43,7 @@ class _DungeonScreenState extends State<DungeonScreen> {
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBar(
-        title: Text('Floor ${widget.gameState.floor}'),
+        title: Text('progress_floor_widgetgamestatefloor'.tr),
         backgroundColor: Colors.black,
         actions: [
           Center(
@@ -120,7 +123,7 @@ class _DungeonScreenState extends State<DungeonScreen> {
       child: Container(
         width: 150,
         height: 200,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(MGSpacing.md),
         decoration: BoxDecoration(
           color: Colors.grey[900],
           borderRadius: BorderRadius.circular(12),
@@ -130,13 +133,13 @@ class _DungeonScreenState extends State<DungeonScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 48, color: color),
-            const SizedBox(height: 16),
+            const SizedBox(height: MGSpacing.md),
             Text(
               room.name,
               style: TextStyle(color: color, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: MGSpacing.xs),
             Text(
               room.description,
               style: const TextStyle(color: Colors.white54, fontSize: 12),

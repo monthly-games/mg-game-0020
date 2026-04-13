@@ -1,9 +1,12 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
+import 'package:mg_common_game/core/localization/localization.dart';
 import 'package:flutter/material.dart';
 import '../../core/game_state.dart';
 import '../features/dungeon/room.dart';
 import '../../core/ui/floating_text.dart';
 import '../features/battle/battle_manager.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+
 
 class BattleScreen extends StatefulWidget {
   final GameState gameState;
@@ -141,7 +144,7 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(MGSpacing.md),
                 child: Column(
                   children: [
                     // Enemy Area
@@ -154,14 +157,14 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
                               'Enemy: ${_battleManager.enemy.name}', 
                               style: const TextStyle(color: MGColors.error, fontSize: 20),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: MGSpacing.sm),
                             Container(
                               width: 100, 
                               height: 100, 
                               color: Colors.redAccent,
                               child: const Icon(Icons.android, size: 50, color: MGColors.textHighEmphasis),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: MGSpacing.sm),
                             LinearProgressIndicator(
                               value: _battleManager.enemy.maxHp > 0 ? _battleManager.currentEnemyHp / _battleManager.enemy.maxHp : 0,
                               valueColor: const AlwaysStoppedAnimation(MGColors.error),
@@ -178,7 +181,7 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
                     // Log
                     Container(
                       height: 100,
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(MGSpacing.xs),
                        decoration: BoxDecoration(
                         color: Colors.grey[900],
                         borderRadius: BorderRadius.circular(8),
@@ -187,7 +190,7 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
                       child: Text(log, style: const TextStyle(color: MGColors.textHighEmphasis), textAlign: TextAlign.center),
                     ),
                     
-                    const SizedBox(height: 20),
+                    const SizedBox(height: MGSpacing.lg),
   
                     // Player Controls
                     Row(
@@ -202,7 +205,7 @@ class _BattleScreenState extends State<BattleScreen> with TickerProviderStateMix
                         ElevatedButton(
                           onPressed: !_battleManager.isVictory && !_battleManager.isDefeat ? _playerAttack : null,
                           style: ElevatedButton.styleFrom(backgroundColor: MGColors.error),
-                          child: const Text('ATTACK'),
+                          child: Text('ui_general_time_attack_max_distance_in'.tr),
                         ),
                       ],
                     ),

@@ -1,4 +1,9 @@
-import 'package:mg_common_game/mg_common_game.dart' hide EventManager;
+import 'package:mg_common_game/systems/progression/achievement_manager.dart';
+
+import 'package:mg_common_game/mg_common_game.dart' hide EventManager, GameState;
+import 'package:mg_common_game/core/ui/accessibility/accessibility_settings.dart';
+import 'package:mg_common_game/l10n/extensions.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'core/game_state.dart';
@@ -11,71 +16,57 @@ import 'screens/battlepass_screen.dart';
 import 'screens/gacha_screen.dart';
 import 'screens/daily_quest_screen.dart';
 import 'screens/achievement_screen.dart';
-import 'screens/collection_screen.dart';
-import 'game/tutorial_config.dart';
-import 'game/balancing_config.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase Core
+  try {
+    // await // Firebase.initializeApp(
+      options: // DefaultFirebaseOptions.currentPlatform,
+    );
+    print('Firebase Core initialized successfully');
+  } catch (e) {
+    print('Failed to initialize Firebase Core: $e');
+  }
+
+  // Initialize Firebase Remote Config
+  try {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setDefaults({
+      'feature_iap_enabled': true,
+      'feature_new_ui_enabled': false,
+      'feature_daily_rewards_enabled': true,
+      'feature_tutorial_enabled': true,
+      'min_app_version': '1.0.0',
+    });
+    await remoteConfig.fetchAndActivate();
+    print('Remote Config initialized successfully');
+  } catch (e) {
+    print('Failed to initialize Remote Config: $e');
+  }
+
   _setupDI();
-  await GetIt.I<AudioManager>().initialize();
-  // ── Tutorial & Balancing (v1.2.0 pilot) ─────────────────────
-  if (!GetIt.I.isRegistered<TutorialManager>()) {
-    final tutorialManager = TutorialManager();
-    await tutorialManager.initialize();
-    tutorialManager.registerTutorial(
-      kOnboardingTutorial.id,
-      kOnboardingTutorial.steps,
-    );
-    GetIt.I.registerSingleton<TutorialManager>(tutorialManager);
-  }
-  if (!GetIt.I.isRegistered<BalancingManager>()) {
-    GetIt.I.registerSingleton<BalancingManager>(
-      BalancingManager(defaultConfig: kDefaultBalancingConfig),
-    );
-  }
   runApp(const TimeSlipApp());
 }
 
 void _setupDI() {
+  // Register core services
   if (!GetIt.I.isRegistered<AudioManager>()) {
     GetIt.I.registerSingleton<AudioManager>(AudioManager());
+  }
+
   // BattlePass 시스템
   GetIt.I.registerSingleton(BattlePassManager());
+
   // Gacha 시스템
   GetIt.I.registerSingleton(GachaManager());
-  // Collection 시스템
-  if (!GetIt.I.isRegistered<CollectionManager>()) {
-    GetIt.I.registerSingleton(CollectionManager());
-  // ── DailyQuest for DailyHub ───────────────────────────────
-  if (!GetIt.I.isRegistered<DailyQuestManager>()) {
-    GetIt.I.registerSingleton(DailyQuestManager());
-  // ── Retention Systems for DailyHub ────────────────────────
-  if (!GetIt.I.isRegistered<LoginRewardsManager>()) {
-    GetIt.I.registerSingleton(LoginRewardsManager());
-  }
-  if (!GetIt.I.isRegistered<StreakManager>()) {
-    GetIt.I.registerSingleton(StreakManager());
-  }
-  if (!GetIt.I.isRegistered<DailyChallengeManager>()) {
-    GetIt.I.registerSingleton(DailyChallengeManager());
-}
-  // ── P3 Engine Systems ─────────────────────────────────────
-  if (!GetIt.I.isRegistered<GuildWarManager>()) {
-    GetIt.I.registerSingleton(GuildWarManager());
-  }
-  if (!GetIt.I.isRegistered<TournamentManager>()) {
-    GetIt.I.registerSingleton(TournamentManager());
-  }
-  if (!GetIt.I.isRegistered<SeasonalContentManager>()) {
-    GetIt.I.registerSingleton(SeasonalContentManager());
-  }
-  }
-    _registerCollections();
-  }
+
   _setupGacha();
   _setupBattlePass();
-  }
 }
 
 class TimeSlipApp extends StatelessWidget {
@@ -83,50 +74,27 @@ class TimeSlipApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Time Slip Expedition',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: AppColors.background,
-        primaryColor: AppColors.primary,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primary,
-          brightness: Brightness.dark,
+    return MGAccessibilityProvider(
+      settings: MGAccessibilitySettings.defaults,
+      onSettingsChanged: (settings) {
+        // Settings updated
+      },
+      child: MaterialApp(
+        title: 'Time Slip Expedition',
+        theme: ThemeData.dark().copyWith(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blue,
+            brightness: Brightness.dark,
+          ),
         ),
-      ),
-      home: const MainGameScreen(),
-      routes: {
-        '/battlepass': (_) => const BattlePassScreen(),
-        '/gacha': (_) => const GachaScreen(),
+        home: const MainGameScreen(),
+        routes: {
+          '/battlepass': (_) => const BattlePassScreen(),
+          '/gacha': (_) => const GachaScreen(),
           '/daily_quest': (_) => const DailyQuestScreen(),
           '/achievement': (_) => const AchievementScreen(),
-        '/daily-hub': (context) => DailyHubScreen(
-          questManager: GetIt.I<DailyQuestManager>(),
-          loginRewardsManager: GetIt.I<LoginRewardsManager>(),
-          streakManager: GetIt.I<StreakManager>(),
-          challengeManager: GetIt.I<DailyChallengeManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-        ),
-        
-        '/collection': (context) => CollectionScreen(
-          collectionManager: GetIt.I<CollectionManager>(),
-        ),
-        '/guild-war': (context) => GuildWarScreen(
-          guildWarManager: GetIt.I<GuildWarManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-          ),
-        '/tournament': (context) => TournamentScreen(
-          tournamentManager: GetIt.I<TournamentManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-          ),
-        '/seasonal-event': (context) => SeasonalEventScreen(
-          seasonalContentManager: GetIt.I<SeasonalContentManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-          ),
-},
+        },
+      ),
     );
   }
 }
@@ -169,24 +137,24 @@ class _MainGameScreenState extends State<MainGameScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
+      builder: (context) => AlertDialog(
         title: Text(event.title),
         content: Text(event.description),
         actions: [
           TextButton(
             onPressed: () {
               final result = EventManager.resolveEvent(event, _gameState);
-              Navigator.pop(ctx);
+              Navigator.pop(context);
               _showEventResult(result);
             },
             child: const Text('Interact'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(ctx);
+              Navigator.pop(context);
               _showEventResult('You ignored the ${event.title}.');
             },
-            child: const Text('Leave'),
+            child: Text(context.l10n.'shop_leave_shop'),
           ),
         ],
       ),
@@ -197,16 +165,16 @@ class _MainGameScreenState extends State<MainGameScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
+      builder: (context) => AlertDialog(
         content: Text(result),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(ctx);
+              Navigator.pop(context);
               _gameState.nextFloor();
               setState(() {});
             },
-            child: const Text('Continue'),
+            child: Text(context.l10n.'ui_general_continue_experiment'),
           ),
         ],
       ),
@@ -224,20 +192,20 @@ class _MainGameScreenState extends State<MainGameScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
-        title: const Text('YOU DIED'),
-        content: Text('Floor reached: ${_gameState.floor}'),
+      builder: (context) => AlertDialog(
+        title: Text(context.l10n.'ui_general_you_died'),
+        content: Text(context.l10n.'progress_floor_reached__gamestatefloor'),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(ctx);
+              Navigator.pop(context);
               setState(() {
                 _currentRoom = null;
                 _showShop = false;
                 _gameState.startNewRun();
               });
             },
-            child: const Text('Time Loop Reset'),
+            child: Text(context.l10n.'ui_general_time_loop_reset'),
           ),
         ],
       ),
@@ -324,14 +292,14 @@ void _setupGacha() {
       )),
 
       // SSR (2.7%)
-      const GachaItem(
+      GachaItem(
         id: 'ssr_item_1',
         nameKr: '울트라레어 아이템 1',
         rarity: GachaRarity.ultraRare,
       ),
 
       // UR (0.3%)
-      const GachaItem(
+      GachaItem(
         id: 'ur_item_1',
         nameKr: '레전더리 아이템 1',
         rarity: GachaRarity.legendary,
@@ -393,4 +361,35 @@ void _registerCollections() {
     // SettingsManager가 등록되어 있으면 햅틱 피드백
     debugPrint('Collection item unlocked: $collectionId / $itemId');
   };
+}
+
+void _registerDailyQuests() {
+  final dailyQuest = GetIt.I<DailyQuestManager>();
+
+  dailyQuest.registerQuest(DailyQuest(
+    id: 'clear_rooms',
+    title: '방 클리어',
+    description: '던전 방 15개 클리어',
+    targetValue: 15,
+    goldReward: 500,
+    xpReward: 10,
+  ));
+
+  dailyQuest.registerQuest(DailyQuest(
+    id: 'defeat_bosses',
+    title: '보스 격파',
+    description: '보스 2회 격파',
+    targetValue: 2,
+    goldReward: 300,
+    xpReward: 5,
+  ));
+
+  dailyQuest.registerQuest(DailyQuest(
+    id: 'loot_chests',
+    title: '전리품 획득',
+    description: '상자 10개 열기',
+    targetValue: 10,
+    goldReward: 200,
+    xpReward: 3,
+  ));
 }

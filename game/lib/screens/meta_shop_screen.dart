@@ -1,5 +1,8 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
+import 'package:mg_common_game/core/localization/localization.dart';
 import 'package:flutter/material.dart';
-import '../core/game_state.dart';
+import '../core/game_state.dart';import 'package:mg_common_game/l10n/localization.dart';
+
 
 class MetaShopScreen extends StatelessWidget {
   final GameState gameState;
@@ -15,7 +18,7 @@ class MetaShopScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Time Crystal Exchange'),
+        title: Text('ui_general_time_crystal_exchange'.tr),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: onBack,
@@ -37,7 +40,7 @@ class MetaShopScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(MGSpacing.md),
         children: [
           _buildUpgradeCard(
             context,
@@ -99,11 +102,11 @@ class MetaShopScreen extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
-        title: Text('$title (Lvl $level)'),
+        title: Text('progress_title_lvl_level'.tr),
         subtitle: Text(description),
         trailing: ElevatedButton(
           onPressed: canBuy ? onBuy : null,
-          child: Text('$cost 💎'),
+          child: Text('ui_general_cost_2'.tr),
         ),
       ),
     );

@@ -1,45 +1,36 @@
 import 'package:mg_common_game/systems/tutorial/tutorial.dart';
+import 'package:mg_common_game/systems/tutorial/tutorial_data.dart';
 
 /// Tutorial configuration for MG-0020: Time Slip Expedition (Adventure).
 ///
 /// Placeholder tutorial steps for v1.2.0 pilot integration.
 /// In production, replace descriptions with localized strings
 /// and add targetSelector for highlight positioning.
-const kOnboardingTutorial = TutorialConfig(
+final kOnboardingTutorial = TutorialConfig(
   id: 'onboarding',
   name: 'Time Slip Tutorial',
   steps: [
     TutorialStep(
-      id: 'welcome',
-      title: 'Welcome, Time Traveler!',
-      description: 'Navigate through dungeon floors across different eras.',
-      actionHint: 'Tap to continue',
+      id: 'play_button',
+      title: '게임을 시작하세요',
+      description: '플레이 버튼을 눌러 게임을 시작합니다.',
     ),
     TutorialStep(
-      id: 'explore_dungeon',
-      title: 'Explore the Dungeon',
-      description:
-          'Choose a room to enter. Each room has different encounters.',
-      actionHint: 'Tap a room',
-      targetSelector: 'dungeon_map',
+      id: 'objective',
+      title: '목표를 달성하세요',
+      description: '화면의 안내를 따라 목표를 완수하세요.',
     ),
     TutorialStep(
-      id: 'first_battle',
-      title: 'Battle Enemies',
-      description:
-          'Defeat enemies to earn loot and advance deeper '
-          'into the dungeon.',
-      actionHint: 'Tap attack',
-      targetSelector: 'battle_area',
+      id: 'reward',
+      title: '보상을 획득하세요',
+      description: '목표 달성 시 골드와 경험치를 받습니다.',
     ),
     TutorialStep(
-      id: 'visit_shop',
-      title: 'Visit the Shop',
-      description: 'Spend gold at the shop to buy powerful items.',
-      actionHint: 'Tap to continue',
+      id: 'unlock',
+      title: '새 콘텐츠를 해제하세요',
+      description: '레벨을 올려 새로운 콘텐츠를 해제하세요.',
     ),
+  
   ],
   skippable: true,
-  showOnFirstLaunch: true,
-  trigger: TutorialTrigger.firstLaunch,
 );

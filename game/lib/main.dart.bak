@@ -1,17 +1,11 @@
+import 'package:mg_common_game/mg_common_game.dart' hide EventManager, GameState;
+import 'package:mg_common_game/core/ui/accessibility/accessibility_settings.dart';
+import 'package:mg_common_game/l10n/extensions.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:mg_common_game/systems/gacha/gacha_pool.dart';
-import 'package:mg_common_game/systems/gacha/gacha_manager.dart';
-import 'package:mg_common_game/systems/battlepass/battlepass_config.dart';
-import 'package:mg_common_game/systems/battlepass/battlepass_manager.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mg_common_game/core/audio/audio_manager.dart';
-import 'package:mg_common_game/core/ui/theme/app_colors.dart';
-import 'package:mg_common_game/systems/systems.dart';
 import 'core/game_state.dart';
 import 'features/dungeon/room.dart';
-import 'features/battle/enemy_data.dart';
 import 'screens/dungeon_screen.dart';
 import 'screens/battle_screen.dart';
 import 'screens/shop_screen.dart';
@@ -20,29 +14,57 @@ import 'screens/battlepass_screen.dart';
 import 'screens/gacha_screen.dart';
 import 'screens/daily_quest_screen.dart';
 import 'screens/achievement_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase Core
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print('Firebase Core initialized successfully');
+  } catch (e) {
+    print('Failed to initialize Firebase Core: $e');
+  }
+
+  // Initialize Firebase Remote Config
+  try {
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setDefaults({
+      'feature_iap_enabled': true,
+      'feature_new_ui_enabled': false,
+      'feature_daily_rewards_enabled': true,
+      'feature_tutorial_enabled': true,
+      'min_app_version': '1.0.0',
+    });
+    await remoteConfig.fetchAndActivate();
+    print('Remote Config initialized successfully');
+  } catch (e) {
+    print('Failed to initialize Remote Config: $e');
+  }
+
   _setupDI();
-  await GetIt.I<AudioManager>().initialize();
   runApp(const TimeSlipApp());
 }
 
 void _setupDI() {
+  // Register core services
   if (!GetIt.I.isRegistered<AudioManager>()) {
     GetIt.I.registerSingleton<AudioManager>(AudioManager());
+  }
+
   // BattlePass 시스템
   GetIt.I.registerSingleton(BattlePassManager());
+
   // Gacha 시스템
   GetIt.I.registerSingleton(GachaManager());
-  // Collection 시스템
-  if (!GetIt.I.isRegistered<CollectionManager>()) {
-    GetIt.I.registerSingleton(CollectionManager());
-    _registerCollections();
-  }
+
   _setupGacha();
   _setupBattlePass();
-  }
 }
 
 class TimeSlipApp extends StatelessWidget {
@@ -50,23 +72,27 @@ class TimeSlipApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Time Slip Expedition',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: AppColors.background,
-        primaryColor: AppColors.primary,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primary,
-          brightness: Brightness.dark,
+    return MGAccessibilityProvider(
+      settings: MGAccessibilitySettings.defaults,
+      onSettingsChanged: (settings) {
+        // Settings updated
+      },
+      child: MaterialApp(
+        title: 'Time Slip Expedition',
+        theme: ThemeData.dark().copyWith(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blue,
+            brightness: Brightness.dark,
+          ),
         ),
-      ),
-      home: const MainGameScreen(),
-      routes: {
-        '/battlepass': (_) => const BattlePassScreen(),
-        '/gacha': (_) => const GachaScreen(),
+        home: const MainGameScreen(),
+        routes: {
+          '/battlepass': (_) => const BattlePassScreen(),
+          '/gacha': (_) => const GachaScreen(),
           '/daily_quest': (_) => const DailyQuestScreen(),
           '/achievement': (_) => const AchievementScreen(),
         },
+      ),
     );
   }
 }
@@ -109,24 +135,24 @@ class _MainGameScreenState extends State<MainGameScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
+      builder: (context) => AlertDialog(
         title: Text(event.title),
         content: Text(event.description),
         actions: [
           TextButton(
             onPressed: () {
               final result = EventManager.resolveEvent(event, _gameState);
-              Navigator.pop(ctx);
+              Navigator.pop(context);
               _showEventResult(result);
             },
             child: const Text('Interact'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(ctx);
+              Navigator.pop(context);
               _showEventResult('You ignored the ${event.title}.');
             },
-            child: const Text('Leave'),
+            child: Text(context.l10n.'shop_leave_shop'),
           ),
         ],
       ),
@@ -137,16 +163,16 @@ class _MainGameScreenState extends State<MainGameScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
+      builder: (context) => AlertDialog(
         content: Text(result),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(ctx);
+              Navigator.pop(context);
               _gameState.nextFloor();
               setState(() {});
             },
-            child: const Text('Continue'),
+            child: Text(context.l10n.'ui_general_continue_experiment'),
           ),
         ],
       ),
@@ -164,20 +190,20 @@ class _MainGameScreenState extends State<MainGameScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
-        title: const Text('YOU DIED'),
-        content: Text('Floor reached: ${_gameState.floor}'),
+      builder: (context) => AlertDialog(
+        title: Text(context.l10n.'ui_general_you_died'),
+        content: Text(context.l10n.'progress_floor_reached__gamestatefloor'),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(ctx);
+              Navigator.pop(context);
               setState(() {
                 _currentRoom = null;
                 _showShop = false;
                 _gameState.startNewRun();
               });
             },
-            child: const Text('Time Loop Reset'),
+            child: Text(context.l10n.'ui_general_time_loop_reset'),
           ),
         ],
       ),
@@ -284,47 +310,47 @@ void _registerCollections() {
   final collection = GetIt.I<CollectionManager>();
 
   // Characters 컬렉션
-  collection.registerCollection(const Collection(
+  collection.registerCollection(Collection(
     id: 'characters',
     name: '캐릭터',
     description: '모든 캐릭터를 수집하세요',
     items: [
-      CollectionItem(
+      const CollectionItem(
         id: 'char_warrior',
         name: '전사',
         description: '강인한 근접 전투 캐릭터',
         rarity: CollectionRarity.common,
       ),
-      CollectionItem(
+      const CollectionItem(
         id: 'char_mage',
         name: '마법사',
         description: '강력한 마법 공격 캐릭터',
         rarity: CollectionRarity.rare,
       ),
-      CollectionItem(
+      const CollectionItem(
         id: 'char_archer',
         name: '궁수',
         description: '원거리 정밀 공격 캐릭터',
         rarity: CollectionRarity.rare,
       ),
-      CollectionItem(
+      const CollectionItem(
         id: 'char_assassin',
         name: '암살자',
         description: '치명적인 은신 공격 캐릭터',
         rarity: CollectionRarity.epic,
       ),
-      CollectionItem(
+      const CollectionItem(
         id: 'char_healer',
         name: '힐러',
         description: '팀을 치유하는 지원 캐릭터',
         rarity: CollectionRarity.legendary,
       ),
     ],
-    completionReward: CollectionReward(gold: 10000, gems: 500, experience: 2000),
+    completionReward: const CollectionReward(type: RewardType.gold, amount: 10000),
     milestoneRewards: {
-      25: CollectionReward(gold: 1000, gems: 50),
-      50: CollectionReward(gold: 3000, gems: 150),
-      75: CollectionReward(gold: 5000, gems: 300),
+      25: const CollectionReward(type: RewardType.gold, amount: 1000),
+      50: const CollectionReward(type: RewardType.gold, amount: 3000),
+      75: const CollectionReward(type: RewardType.gold, amount: 5000),
     },
   ));
 
