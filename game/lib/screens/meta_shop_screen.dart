@@ -1,7 +1,7 @@
 import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:mg_common_game/core/localization/localization.dart';
 import 'package:flutter/material.dart';
-import '../core/game_state.dart';import 'package:mg_common_game/l10n/localization.dart';
+import '../core/game_state.dart';
 
 
 class MetaShopScreen extends StatelessWidget {

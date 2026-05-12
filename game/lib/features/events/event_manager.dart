@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:mg_common_game/core/localization/localization.dart';
 import '../../core/game_state.dart';
 import '../items/item_manager.dart';
 

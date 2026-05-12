@@ -1,12 +1,11 @@
 import 'package:mg_common_game/systems/tutorial/tutorial.dart';
-import 'package:mg_common_game/systems/tutorial/tutorial_data.dart';
 
 /// Tutorial configuration for MG-0020: Time Slip Expedition (Adventure).
 ///
 /// Placeholder tutorial steps for v1.2.0 pilot integration.
 /// In production, replace descriptions with localized strings
 /// and add targetSelector for highlight positioning.
-final kOnboardingTutorial = TutorialConfig(
+const kOnboardingTutorial = TutorialConfig(
   id: 'onboarding',
   name: 'Time Slip Tutorial',
   steps: [

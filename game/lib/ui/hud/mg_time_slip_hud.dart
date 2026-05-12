@@ -1,6 +1,5 @@
 import 'package:mg_common_game/mg_common_game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// MG-0020 Time Slip Dungeon HUD
 /// 시간 역행 던전 게임용 HUD - HP, 타임슬립 게이지, 던전 층수, 아이템 표시
@@ -291,35 +290,6 @@ class MGTimeSlipHud extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-
-  Widget _buildSpineCharacter() {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.lightImpact();
-      },
-      child: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          color: Colors.brown.withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.brown.withAlpha(150), width: 2),
-        ),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.person, size: 24, color: Colors.white),
-            SizedBox(height: 2),
-            Text(
-              'Archer',
-              style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
             ),
           ],
         ),

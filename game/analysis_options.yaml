@@ -1,5 +1,6 @@
 include: package:flutter_lints/flutter.yaml
 
-linter:
-  rules:
-    # Add project-specific lint rules here
+analyzer:
+  exclude:
+    - build/**
+    - test_backup/**
