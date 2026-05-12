@@ -10,7 +10,6 @@
         "cloud_firestore",
         "cupertino_icons",
         "equatable",
-        "firebase_analytics",
         "firebase_auth",
         "firebase_core",
         "firebase_messaging",
@@ -63,17 +62,6 @@
         "flutter_test",
         "path",
         "vm_service"
-      ]
-    },
-    {
-      "name": "firebase_analytics",
-      "version": "10.10.7",
-      "dependencies": [
-        "firebase_analytics_platform_interface",
-        "firebase_analytics_web",
-        "firebase_core",
-        "firebase_core_platform_interface",
-        "flutter"
       ]
     },
     {
@@ -350,40 +338,6 @@
       ]
     },
     {
-      "name": "firebase_core_platform_interface",
-      "version": "5.4.2",
-      "dependencies": [
-        "collection",
-        "flutter",
-        "flutter_test",
-        "meta",
-        "plugin_platform_interface"
-      ]
-    },
-    {
-      "name": "firebase_analytics_web",
-      "version": "0.5.7+7",
-      "dependencies": [
-        "_flutterfire_internals",
-        "firebase_analytics_platform_interface",
-        "firebase_core",
-        "firebase_core_web",
-        "flutter",
-        "flutter_web_plugins"
-      ]
-    },
-    {
-      "name": "firebase_analytics_platform_interface",
-      "version": "3.10.8",
-      "dependencies": [
-        "_flutterfire_internals",
-        "firebase_core",
-        "flutter",
-        "meta",
-        "plugin_platform_interface"
-      ]
-    },
-    {
       "name": "firebase_messaging_web",
       "version": "3.5.18",
       "dependencies": [
@@ -404,6 +358,17 @@
         "_flutterfire_internals",
         "firebase_core",
         "flutter",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "firebase_core_platform_interface",
+      "version": "5.4.2",
+      "dependencies": [
+        "collection",
+        "flutter",
+        "flutter_test",
         "meta",
         "plugin_platform_interface"
       ]
@@ -655,6 +620,17 @@
       ]
     },
     {
+      "name": "firebase_analytics",
+      "version": "10.10.7",
+      "dependencies": [
+        "firebase_analytics_platform_interface",
+        "firebase_analytics_web",
+        "firebase_core",
+        "firebase_core_platform_interface",
+        "flutter"
+      ]
+    },
+    {
       "name": "flutter_localizations",
       "version": "0.0.0",
       "dependencies": [
@@ -791,8 +767,8 @@
       ]
     },
     {
-      "name": "plugin_platform_interface",
-      "version": "2.1.8",
+      "name": "js",
+      "version": "0.6.7",
       "dependencies": [
         "meta"
       ]
@@ -816,8 +792,8 @@
       ]
     },
     {
-      "name": "js",
-      "version": "0.6.7",
+      "name": "plugin_platform_interface",
+      "version": "2.1.8",
       "dependencies": [
         "meta"
       ]
@@ -989,6 +965,29 @@
       "dependencies": [
         "_flutterfire_internals",
         "collection",
+        "firebase_core",
+        "flutter",
+        "meta",
+        "plugin_platform_interface"
+      ]
+    },
+    {
+      "name": "firebase_analytics_web",
+      "version": "0.5.7+7",
+      "dependencies": [
+        "_flutterfire_internals",
+        "firebase_analytics_platform_interface",
+        "firebase_core",
+        "firebase_core_web",
+        "flutter",
+        "flutter_web_plugins"
+      ]
+    },
+    {
+      "name": "firebase_analytics_platform_interface",
+      "version": "3.10.8",
+      "dependencies": [
+        "_flutterfire_internals",
         "firebase_core",
         "flutter",
         "meta",
