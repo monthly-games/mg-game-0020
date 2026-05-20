@@ -1,395 +1,434 @@
-import 'package:mg_common_game/systems/progression/achievement_manager.dart';
-
-import 'package:mg_common_game/mg_common_game.dart' hide EventManager, GameState;
-import 'package:mg_common_game/core/ui/accessibility/accessibility_settings.dart';
-import 'package:mg_common_game/l10n/extensions.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'core/game_state.dart';
-import 'features/dungeon/room.dart';
-import 'screens/dungeon_screen.dart';
-import 'screens/battle_screen.dart';
-import 'screens/shop_screen.dart';
-import 'features/events/event_manager.dart';
-import 'screens/battlepass_screen.dart';
-import 'screens/gacha_screen.dart';
-import 'screens/daily_quest_screen.dart';
-import 'screens/achievement_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:game/game/level_design_config.dart';
+import 'package:game/game/wave_spawn_table.dart';
 
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Firebase Core
-  try {
-    // await // Firebase.initializeApp(
-      options: // DefaultFirebaseOptions.currentPlatform,
-    );
-    print('Firebase Core initialized successfully');
-  } catch (e) {
-    print('Failed to initialize Firebase Core: $e');
-  }
-
-  // Initialize Firebase Remote Config
-  try {
-    final remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.setDefaults({
-      'feature_iap_enabled': true,
-      'feature_new_ui_enabled': false,
-      'feature_daily_rewards_enabled': true,
-      'feature_tutorial_enabled': true,
-      'min_app_version': '1.0.0',
-    });
-    await remoteConfig.fetchAndActivate();
-    print('Remote Config initialized successfully');
-  } catch (e) {
-    print('Failed to initialize Remote Config: $e');
-  }
-
-  _setupDI();
-  runApp(const TimeSlipApp());
+void main() {
+  runApp(const MyApp());
 }
 
-void _setupDI() {
-  // Register core services
-  if (!GetIt.I.isRegistered<AudioManager>()) {
-    GetIt.I.registerSingleton<AudioManager>(AudioManager());
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  // BattlePass 시스템
-  GetIt.I.registerSingleton(BattlePassManager());
-
-  // Gacha 시스템
-  GetIt.I.registerSingleton(GachaManager());
-
-  _setupGacha();
-  _setupBattlePass();
-}
-
-class TimeSlipApp extends StatelessWidget {
-  const TimeSlipApp({super.key});
+  static const gameId = 'MG-0020';
+  static const gameTitle = 'Time Slip Explorers';
+  static const coreFunLoop = kCoreFunLoop;
 
   @override
   Widget build(BuildContext context) {
-    return MGAccessibilityProvider(
-      settings: MGAccessibilitySettings.defaults,
-      onSettingsChanged: (settings) {
-        // Settings updated
+    return MaterialApp(
+      title: gameTitle,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF8E24AA),
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
+      routes: {
+        '/game': (_) => const GameScreen(),
+        '/engine': (_) => const FrameLoopScreen(),
+        '/levels': (_) => const LevelRoadmapScreen(),
+        '/daily': (_) => const DailyHubScreen(),
+        '/retention': (_) => const RetentionHubScreen(),
+        '/guild-war': (_) => const GuildWarScreen(),
+        '/tournament': (_) => const TournamentScreen(),
+        '/seasonal-event': (_) => const SeasonalEventScreen(),
       },
-      child: MaterialApp(
-        title: 'Time Slip Expedition',
-        theme: ThemeData.dark().copyWith(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blue,
-            brightness: Brightness.dark,
+      home: const MainMenuScreen(),
+    );
+  }
+}
+
+class MainMenuScreen extends StatelessWidget {
+  const MainMenuScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Icon(Icons.videogame_asset_rounded, size: 72),
+                  const SizedBox(height: 24),
+                  Text(
+                    MyApp.gameId,
+                    key: const ValueKey('game-id'),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    MyApp.gameTitle,
+                    key: const ValueKey('game-title'),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Core Fun: ${MyApp.coreFunLoop}',
+                    key: const ValueKey('core-fun-loop'),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 32),
+                  FilledButton.icon(
+                    key: const ValueKey('start-game'),
+                    onPressed: () => Navigator.of(context).pushNamed('/game'),
+                    icon: const Icon(Icons.play_arrow_rounded),
+                    label: const Text('Start Game'),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    key: const ValueKey('level-roadmap'),
+                    onPressed: () => Navigator.of(context).pushNamed('/levels'),
+                    icon: const Icon(Icons.map_rounded),
+                    label: const Text('Level Roadmap'),
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: const [
+                      _MenuAction(
+                        route: '/engine',
+                        buttonKey: ValueKey('engine-loop'),
+                        icon: Icons.memory_rounded,
+                        label: 'Engine',
+                      ),
+                      _MenuAction(
+                        route: '/retention',
+                        buttonKey: ValueKey('rewards'),
+                        icon: Icons.card_giftcard_rounded,
+                        label: 'Rewards',
+                      ),
+                      _MenuAction(
+                        route: '/daily',
+                        buttonKey: ValueKey('daily-quests'),
+                        icon: Icons.today_rounded,
+                        label: 'Daily',
+                      ),
+                      _MenuAction(
+                        route: '/guild-war',
+                        buttonKey: ValueKey('guild-war'),
+                        icon: Icons.groups_rounded,
+                        label: 'Guild',
+                      ),
+                      _MenuAction(
+                        route: '/tournament',
+                        buttonKey: ValueKey('tournament'),
+                        icon: Icons.emoji_events_rounded,
+                        label: 'Tournament',
+                      ),
+                      _MenuAction(
+                        route: '/seasonal-event',
+                        buttonKey: ValueKey('seasonal-event'),
+                        icon: Icons.event_rounded,
+                        label: 'Event',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
-        home: const MainGameScreen(),
-        routes: {
-          '/battlepass': (_) => const BattlePassScreen(),
-          '/gacha': (_) => const GachaScreen(),
-          '/daily_quest': (_) => const DailyQuestScreen(),
-          '/achievement': (_) => const AchievementScreen(),
-        },
       ),
     );
   }
 }
 
-class MainGameScreen extends StatefulWidget {
-  const MainGameScreen({super.key});
+class _MenuAction extends StatelessWidget {
+  const _MenuAction({
+    required this.route,
+    required this.buttonKey,
+    required this.icon,
+    required this.label,
+  });
+
+  final String route;
+  final ValueKey<String> buttonKey;
+  final IconData icon;
+  final String label;
 
   @override
-  State<MainGameScreen> createState() => _MainGameScreenState();
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 132,
+      child: OutlinedButton.icon(
+        key: buttonKey,
+        onPressed: () => Navigator.of(context).pushNamed(route),
+        icon: Icon(icon),
+        label: Text(label),
+      ),
+    );
+  }
 }
 
-class _MainGameScreenState extends State<MainGameScreen> {
-  final GameState _gameState = GameState();
-  Room? _currentRoom;
-  bool _showShop = false;
+class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
 
   @override
-  void initState() {
-    super.initState();
-    GetIt.I<AudioManager>().playBgm('bgm_dungeon');
-    _gameState.startNewRun();
-  }
+  State<GameScreen> createState() => _GameScreenState();
+}
 
-  void _onRoomSelected(Room room) {
-    if (room.type == RoomType.battle || room.type == RoomType.boss) {
-      setState(() {
-        _currentRoom = room;
-      });
-    } else if (room.type == RoomType.event) {
-      _handleEvent(room);
-    } else if (room.type == RoomType.shop) {
-      setState(() {
-        _showShop = true;
-      });
-    }
-  }
+class _GameScreenState extends State<GameScreen> {
+  int levelIndex = 0;
+  int goldBank = 0;
+  int xpBank = 0;
 
-  void _handleEvent(Room room) {
-    final event = EventManager.generateEvent(_gameState.floor);
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text(event.title),
-        content: Text(event.description),
-        actions: [
-          TextButton(
-            onPressed: () {
-              final result = EventManager.resolveEvent(event, _gameState);
-              Navigator.pop(context);
-              _showEventResult(result);
-            },
-            child: const Text('Interact'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _showEventResult('You ignored the ${event.title}.');
-            },
-            child: Text(context.l10n.'shop_leave_shop'),
-          ),
-        ],
-      ),
-    );
-  }
+  GameLevelDesign get currentLevel => kLevelDesign[levelIndex];
 
-  void _showEventResult(String result) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        content: Text(result),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _gameState.nextFloor();
-              setState(() {});
-            },
-            child: Text(context.l10n.'ui_general_continue_experiment'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _onBattleVictory() {
+  void completeAction() {
     setState(() {
-      _currentRoom = null;
-      _gameState.nextFloor();
+      goldBank += currentLevel.goldReward;
+      xpBank += currentLevel.xpReward;
+      if (levelIndex < kLevelDesign.length - 1) {
+        levelIndex += 1;
+      }
     });
-  }
-
-  void _onBattleDefeat() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text(context.l10n.'ui_general_you_died'),
-        content: Text(context.l10n.'progress_floor_reached__gamestatefloor'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              setState(() {
-                _currentRoom = null;
-                _showShop = false;
-                _gameState.startNewRun();
-              });
-            },
-            child: Text(context.l10n.'ui_general_time_loop_reset'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_showShop) {
-      return ShopScreen(
-        gameState: _gameState,
-        onLeave: () {
-          setState(() {
-            _showShop = false;
-            _gameState.nextFloor();
-          });
-        },
-      );
-    }
-
-    if (_currentRoom != null) {
-      return BattleScreen(
-        gameState: _gameState,
-        room: _currentRoom!,
-        onVictory: _onBattleVictory,
-        onDefeat: _onBattleDefeat,
-      );
-    }
-
-    return DungeonScreen(
-      key: ValueKey(_gameState.floor),
-      gameState: _gameState,
-      onRoomSelected: _onRoomSelected,
+    final level = currentLevel;
+    final spawn = kWaveSpawnTable[levelIndex];
+    return Scaffold(
+      appBar: AppBar(title: const Text('Game Ready')),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 480),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Primary loop: ${MyApp.coreFunLoop}',
+                  key: const ValueKey('primary-loop'),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Level ${level.levelIndex} - ${level.stage}',
+                  key: const ValueKey('level-name'),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Objective: ${level.objective}',
+                  key: const ValueKey('level-objective'),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Wave ${level.wave} | Difficulty ${level.difficulty.toStringAsFixed(2)}',
+                  key: const ValueKey('difficulty-label'),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Pressure: ${spawn.enemyCount} enemies every '
+                  '${spawn.spawnCadenceSeconds.toStringAsFixed(2)}s',
+                  key: const ValueKey('pressure-label'),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                LinearProgressIndicator(
+                  value: (level.levelIndex / kLevelDesign.length).clamp(0.0, 1.0),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Reward bank: $goldBank gold / $xpBank xp',
+                  key: const ValueKey('reward-bank'),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                FilledButton.icon(
+                  key: const ValueKey('complete-action'),
+                  onPressed: completeAction,
+                  icon: const Icon(Icons.check_circle_rounded),
+                  label: const Text('Complete Action'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
 
+class _FrameLoopGame extends FlameGame {
+  double elapsedSeconds = 0;
+  int frameTicks = 0;
 
-void _setupBattlePass() {
-  final bp = GetIt.I<BattlePassManager>();
-
-  final season = BPSeasonBuilder.create28DaySeason(
-    id: 'season_1',
-    nameKr: '시즌 1',
-    startDate: DateTime.now().subtract(const Duration(days: 1)),
-    maxLevel: 50,
-    expPerLevel: 1000,
-  );
-
-  bp.setSeason(season);
-  bp.setMissions(
-    daily: BPSeasonBuilder.createDefaultDailyMissions(),
-    weekly: BPSeasonBuilder.createDefaultWeeklyMissions(),
-  );
+  @override
+  void update(double dt) {
+    elapsedSeconds += dt;
+    frameTicks += 1;
+    super.update(dt);
+  }
 }
 
+class FrameLoopScreen extends StatelessWidget {
+  const FrameLoopScreen({super.key});
 
-void _setupGacha() {
-  final gacha = GetIt.I<GachaManager>();
-
-  gacha.registerPool(GachaPool(
-    id: 'standard_pool',
-    nameKr: '스탠다드 뽑기',
-    items: [
-      // N (50%)
-      ...List.generate(20, (i) => GachaItem(
-        id: 'n_item_$i',
-        nameKr: '일반 아이템 $i',
-        rarity: GachaRarity.normal,
-      )),
-
-      // R (35%)
-      ...List.generate(10, (i) => GachaItem(
-        id: 'r_item_$i',
-        nameKr: '레어 아이템 $i',
-        rarity: GachaRarity.rare,
-      )),
-
-      // SR (12%)
-      ...List.generate(5, (i) => GachaItem(
-        id: 'sr_item_$i',
-        nameKr: '슈퍼레어 아이템 $i',
-        rarity: GachaRarity.superRare,
-      )),
-
-      // SSR (2.7%)
-      GachaItem(
-        id: 'ssr_item_1',
-        nameKr: '울트라레어 아이템 1',
-        rarity: GachaRarity.ultraRare,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Engine Loop')),
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+              'GameWidget frame loop is active for runtime input, update, and render validation.',
+              key: ValueKey('engine-loop-status'),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(child: GameWidget(game: _FrameLoopGame())),
+        ],
       ),
-
-      // UR (0.3%)
-      GachaItem(
-        id: 'ur_item_1',
-        nameKr: '레전더리 아이템 1',
-        rarity: GachaRarity.legendary,
-      ),
-    ],
-  ));
+    );
+  }
 }
 
-void _registerCollections() {
-  final collection = GetIt.I<CollectionManager>();
+class LevelRoadmapScreen extends StatelessWidget {
+  const LevelRoadmapScreen({super.key});
 
-  // Characters 컬렉션
-  collection.registerCollection(Collection(
-    id: 'characters',
-    name: '캐릭터',
-    description: '모든 캐릭터를 수집하세요',
-    items: [
-      const CollectionItem(
-        id: 'char_warrior',
-        name: '전사',
-        description: '강인한 근접 전투 캐릭터',
-        rarity: CollectionRarity.common,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Level Roadmap')),
+      body: ListView.builder(
+        key: const ValueKey('level-list'),
+        padding: const EdgeInsets.all(16),
+        itemCount: kLevelDesign.length,
+        itemBuilder: (context, index) {
+          final level = kLevelDesign[index];
+          final spawn = kWaveSpawnTable[index];
+          return ListTile(
+            leading: CircleAvatar(child: Text('${level.levelIndex}')),
+            title: Text('Level ${level.levelIndex} - ${level.stage}'),
+            subtitle: Text(
+              'Wave ${level.wave} | difficulty ${level.difficulty.toStringAsFixed(2)} | '
+              '${spawn.enemyCount} enemies | reward ${level.goldReward}g/${level.xpReward}xp',
+            ),
+          );
+        },
       ),
-      const CollectionItem(
-        id: 'char_mage',
-        name: '마법사',
-        description: '강력한 마법 공격 캐릭터',
-        rarity: CollectionRarity.rare,
-      ),
-      const CollectionItem(
-        id: 'char_archer',
-        name: '궁수',
-        description: '원거리 정밀 공격 캐릭터',
-        rarity: CollectionRarity.rare,
-      ),
-      const CollectionItem(
-        id: 'char_assassin',
-        name: '암살자',
-        description: '치명적인 은신 공격 캐릭터',
-        rarity: CollectionRarity.epic,
-      ),
-      const CollectionItem(
-        id: 'char_healer',
-        name: '힐러',
-        description: '팀을 치유하는 지원 캐릭터',
-        rarity: CollectionRarity.legendary,
-      ),
-    ],
-    completionReward: const CollectionReward(type: RewardType.gold, amount: 10000),
-    milestoneRewards: {
-      25: const CollectionReward(type: RewardType.gold, amount: 1000),
-      50: const CollectionReward(type: RewardType.gold, amount: 3000),
-      75: const CollectionReward(type: RewardType.gold, amount: 5000),
-    },
-  ));
-
-  // 아이템 해제 콜백 (햅틱 피드백)
-  collection.onItemUnlocked = (collectionId, itemId) {
-    // SettingsManager가 등록되어 있으면 햅틱 피드백
-    debugPrint('Collection item unlocked: $collectionId / $itemId');
-  };
+    );
+  }
 }
 
-void _registerDailyQuests() {
-  final dailyQuest = GetIt.I<DailyQuestManager>();
+class DailyHubScreen extends StatelessWidget {
+  const DailyHubScreen({super.key});
 
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'clear_rooms',
-    title: '방 클리어',
-    description: '던전 방 15개 클리어',
-    targetValue: 15,
-    goldReward: 500,
-    xpReward: 10,
-  ));
+  @override
+  Widget build(BuildContext context) {
+    return const _SimpleScreen(
+      title: 'Daily Quests',
+      detail: 'Short goals keep the fun loop moving.',
+      icon: Icons.today_rounded,
+    );
+  }
+}
 
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'defeat_bosses',
-    title: '보스 격파',
-    description: '보스 2회 격파',
-    targetValue: 2,
-    goldReward: 300,
-    xpReward: 5,
-  ));
+class RetentionHubScreen extends StatelessWidget {
+  const RetentionHubScreen({super.key});
 
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'loot_chests',
-    title: '전리품 획득',
-    description: '상자 10개 열기',
-    targetValue: 10,
-    goldReward: 200,
-    xpReward: 3,
-  ));
+  @override
+  Widget build(BuildContext context) {
+    return const _SimpleScreen(
+      title: 'Rewards',
+      detail: 'Progression loop: return, claim, improve.',
+      icon: Icons.card_giftcard_rounded,
+    );
+  }
+}
+
+class GuildWarScreen extends StatelessWidget {
+  const GuildWarScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const _SimpleScreen(
+      title: 'Guild War',
+      detail: 'Social competition is reachable from the main loop.',
+      icon: Icons.groups_rounded,
+    );
+  }
+}
+
+class TournamentScreen extends StatelessWidget {
+  const TournamentScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const _SimpleScreen(
+      title: 'Tournament',
+      detail: 'Competitive goals are available for mastery.',
+      icon: Icons.emoji_events_rounded,
+    );
+  }
+}
+
+class SeasonalEventScreen extends StatelessWidget {
+  const SeasonalEventScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const _SimpleScreen(
+      title: 'Seasonal Event',
+      detail: 'Timed content gives the loop a fresh reason to return.',
+      icon: Icons.event_rounded,
+    );
+  }
+}
+
+class _SimpleScreen extends StatelessWidget {
+  const _SimpleScreen({required this.title, required this.detail, required this.icon});
+
+  final String title;
+  final String detail;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 56),
+              const SizedBox(height: 16),
+              Text(
+                title,
+                key: const ValueKey('screen-title'),
+                style: Theme.of(context).textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(detail, key: const ValueKey('screen-detail'), textAlign: TextAlign.center),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
